@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "394326100452",
+    "project_id": "we-ryde-007",
+    "storage_bucket": "we-ryde-007.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394326100452:android:93d934dad7c8e2c8ca5ff1",
+        "android_client_info": {
+          "package_name": "com.techkor.weryde"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394326100452-f9k0je5oojjl9v6j1olhru38m96kj3hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394326100452-f9k0je5oojjl9v6j1olhru38m96kj3hi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
