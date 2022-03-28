@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
     Firebase.initializeApp().then((value) async {
       await Future.delayed(Duration(seconds: 2));
       if (FirebaseAuth.instance.currentUser != null) {
-        Get.offNamed(Routes.home);
+        Get.offNamed(Routes.bottomnav);
       } else {
         Get.offNamed(Routes.login);
       }

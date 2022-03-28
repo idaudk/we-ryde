@@ -2,14 +2,19 @@ import 'package:get/get.dart';
 import 'package:weryde/app/features/authentication/bindings/authentication_binding.dart';
 import 'package:weryde/app/features/authentication/views/screens/authentication_screen.dart';
 import 'package:weryde/app/features/bottom_nav_bar/bindings/bottom_nav_binding.dart';
+import 'package:weryde/app/features/bottom_nav_bar/views/bottom_nav_bar.dart';
 import 'package:weryde/app/features/home/bindings/home_binding.dart';
 import 'package:weryde/app/features/home/views/views/home_screen.dart';
 import 'package:weryde/app/features/login/bindings/login_binding.dart';
 import 'package:weryde/app/features/login/views/screens/login_screen.dart';
 import 'package:weryde/app/features/more/views/screens/more_screen.dart';
+import 'package:weryde/app/features/my_vehicles/bindings/my_vehicles_binding.dart';
+import 'package:weryde/app/features/my_vehicles/views/screens/my_vehicle_screen.dart';
 import 'package:weryde/app/features/registration/bindings/registration_binding.dart';
 import 'package:weryde/app/features/registration/views/screens/registration_screen.dart';
 import 'package:weryde/app/features/splash/views/screens/splash_screen.dart';
+
+import '../../features/more/bindings/more_binding.dart';
 
 part 'app_routes.dart';
 
@@ -45,6 +50,16 @@ abstract class AppPages {
       name: _Paths.more,
       page: () => MoreScreen(),
       binding: MoreBinding(),
+    ),
+    GetPage(
+      name: _Paths.bottomnav,
+      page: () => BottomNavigationBarUI(),
+      binding: BottomNavigationBinding(),
+    ),
+    GetPage(
+      name: _Paths.myvehicles,
+      page: () => MyVehiclesScreen(),
+      binding: MyVehiclesBinding(),
     )
   ];
 }

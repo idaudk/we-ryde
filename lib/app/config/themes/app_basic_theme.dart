@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 abstract class AppBasicTheme {
   static ThemeData getThemeData() {
     return ThemeData(
+      fontFamily: "lato",
       primarySwatch: Colors.blue,
       textTheme: TextTheme(bodyText2: TextStyle(color: Colors.grey[800])),
       appBarTheme: AppBarTheme(

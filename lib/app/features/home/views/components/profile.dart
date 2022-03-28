@@ -1,7 +1,8 @@
 part of home_view;
 
-class _Profile extends GetView<HomeController> {
-  const _Profile({Key? key}) : super(key: key);
+class Profile extends GetView<HomeController> {
+  const Profile({Key? key}) : super(key: key);
+  //HomeController homeController = HomeCOn
 
   @override
   Widget build(BuildContext context) {

@@ -42,6 +42,9 @@ dependencies:
   get: ^4.1.4
   sms_autofill: ^2.0.0
   google_nav_bar: ^5.0.6
+  iconsax:
+  flutter_screenutil: ^5.3.1
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:

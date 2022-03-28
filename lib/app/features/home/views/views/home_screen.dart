@@ -2,7 +2,6 @@ library home_view;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:weryde/app/features/home/controllers/home_controller.dart';
 
 import '../../controllers/home_controller.dart';
@@ -14,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,10 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          _Profile(),
+          Profile(),
         ],
       ),
-      drawer: _Drawer(),
+      drawer: CustomDrawer(),
     );
   }
 }

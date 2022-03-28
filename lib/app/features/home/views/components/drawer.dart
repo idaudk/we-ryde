@@ -1,7 +1,7 @@
 part of home_view;
 
-class _Drawer extends GetView<HomeController> {
-  const _Drawer({Key? key}) : super(key: key);
+class CustomDrawer extends GetView<HomeController> {
+  CustomDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
