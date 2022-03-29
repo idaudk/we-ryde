@@ -18,10 +18,11 @@ class MoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _key,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+        height: MediaQuery.of(context).size.height,
+        //key: _key,
+        child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.stretch,
           //mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
@@ -35,90 +36,101 @@ class MoreScreen extends StatelessWidget {
             SizedBox(
               height: 25.h,
             ),
-            SlideAnimation(
-              begin: const Offset(0, 300),
-              child: Container(
-                //constraints: BoxConstraints.expand(),
-
-                height: double.maxFinite,
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)),
-                    color: Colors.white),
-                //width: MediaQuery.of(context).size.width,
-                //height: MediaQuery.of(context).size.height,
-                child: ListView(children: [
-                  ListTile(
-                    leading: Icon(
-                      Iconsax.car,
-                      color: Colors.blueAccent,
-                    ),
-                    title: Text(
-                      "My Vehicle",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Add vehicle Information"),
-                    onTap: () => Get.toNamed(Routes.myvehicles),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Iconsax.location,
-                      color: Colors.blueAccent,
-                    ),
-                    title: Text(
-                      "Manage Address",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Pre Saved Addresses"),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Iconsax.message,
-                      color: Colors.blueAccent,
-                    ),
-                    title: Text(
-                      "Support",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Connect us for issues & queries"),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Iconsax.clipboard,
-                      color: Colors.blueAccent,
-                    ),
-                    title: Text(
-                      "Privacy Policy",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Know our privacy policies"),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Iconsax.language_circle,
-                      color: Colors.blueAccent,
-                    ),
-                    title: Text(
-                      "Change Language",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Set your prefered language"),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Iconsax.message_question,
-                      color: Colors.blueAccent,
-                    ),
-                    title: Text(
-                      "FAQs",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("get your Question's answered"),
-                  ),
-                ]),
+            Expanded(
+              child: SlideAnimation(
+                begin: const Offset(0, 300),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      children: [
+                        ListTile(
+                          leading: const Icon(
+                            Iconsax.car,
+                            color: Colors.blueAccent,
+                          ),
+                          title: const Text(
+                            "My Vehicle",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text("Add vehicle Information"),
+                          onTap: () => Get.toNamed(Routes.myvehicles),
+                        ),
+                        const ListTile(
+                          leading: Icon(
+                            Iconsax.location,
+                            color: Colors.blueAccent,
+                          ),
+                          title: const Text(
+                            "Manage Address",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text("Pre Saved Addresses"),
+                        ),
+                        const ListTile(
+                          leading: Icon(
+                            Iconsax.message,
+                            color: Colors.blueAccent,
+                          ),
+                          title: const Text(
+                            "Support",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle:
+                              const Text("Connect us for issues & queries"),
+                        ),
+                        const ListTile(
+                          leading: const Icon(
+                            Iconsax.clipboard,
+                            color: Colors.blueAccent,
+                          ),
+                          title: const Text(
+                            "Privacy Policy",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text("Know our privacy policies"),
+                        ),
+                        const ListTile(
+                          leading: Icon(
+                            Iconsax.language_circle,
+                            color: Colors.blueAccent,
+                          ),
+                          title: Text(
+                            "Change Language",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text("Set your prefered language"),
+                        ),
+                        const ListTile(
+                          leading: Icon(
+                            Iconsax.message_question,
+                            color: Colors.blueAccent,
+                          ),
+                          title: Text(
+                            "FAQs",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text("get your Question's answered"),
+                        ),
+                        const ListTile(
+                          leading: Icon(
+                            Iconsax.color_swatch,
+                            color: Colors.blueAccent,
+                          ),
+                          title: Text(
+                            "Themes",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text("Change the Color theme of App"),
+                        ),
+                      ]),
+                ),
               ),
             )
           ],
