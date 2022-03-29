@@ -19,6 +19,7 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        color: Color(0xffebf2f8),
         height: MediaQuery.of(context).size.height,
         //key: _key,
         child: Column(
@@ -53,7 +54,7 @@ class MoreScreen extends StatelessWidget {
                         ListTile(
                           leading: const Icon(
                             Iconsax.car,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
                           title: const Text(
                             "My Vehicle",
@@ -65,7 +66,7 @@ class MoreScreen extends StatelessWidget {
                         const ListTile(
                           leading: Icon(
                             Iconsax.location,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
                           title: const Text(
                             "Manage Address",
@@ -73,22 +74,24 @@ class MoreScreen extends StatelessWidget {
                           ),
                           subtitle: Text("Pre Saved Addresses"),
                         ),
-                        const ListTile(
-                          leading: Icon(
+                         ListTile(
+                          leading: const Icon(
                             Iconsax.message,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
-                          title: const Text(
+                          title:  const Text(
                             "Support",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle:
-                              const Text("Connect us for issues & queries"),
+                               const Text("Connect us for issues & queries"),
+                              onTap: () => Get.toNamed(Routes.support),
+
                         ),
                         const ListTile(
                           leading: const Icon(
                             Iconsax.clipboard,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
                           title: const Text(
                             "Privacy Policy",
@@ -99,7 +102,7 @@ class MoreScreen extends StatelessWidget {
                         const ListTile(
                           leading: Icon(
                             Iconsax.language_circle,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
                           title: Text(
                             "Change Language",
@@ -110,7 +113,7 @@ class MoreScreen extends StatelessWidget {
                         const ListTile(
                           leading: Icon(
                             Iconsax.message_question,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
                           title: Text(
                             "FAQs",
@@ -121,7 +124,7 @@ class MoreScreen extends StatelessWidget {
                         const ListTile(
                           leading: Icon(
                             Iconsax.color_swatch,
-                            color: Colors.blueAccent,
+                            color: Color(0xff0ec874),
                           ),
                           title: Text(
                             "Themes",

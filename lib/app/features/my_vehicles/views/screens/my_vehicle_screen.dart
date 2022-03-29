@@ -19,9 +19,10 @@ class MyVehiclesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _key,
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+      body: Container(
+        color: Color(0xffebf2f8),
+        height: MediaQuery.of(context).size.height,
+          key: _key,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             //mainAxisAlignment: MainAxisAlignment.start,
@@ -37,67 +38,69 @@ class MyVehiclesScreen extends StatelessWidget {
               SizedBox(
                 height: 25.h,
               ),
-              Container(
-                width: double.infinity,
-                height: 20.h,
-                decoration: BoxDecoration(color: Colors.red),
-              ),
-              SlideAnimation(
-                begin: const Offset(0, 300),
-                child: Container(
-                  //sconstraints: BoxConstraints.expand(),
-                  height: MediaQuery.of(context).size.height - 230.h,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)),
-                      color: Colors.white),
-                  //width: MediaQuery.of(context).size.width,
-                  //height: MediaQuery.of(context).size.height,
-                  child: ListView(
-                    //physics: BouncingScrollPhysics(),
-                    children: [
-                      ListTile(
-                        trailing: Container(
-                          height: 90.h,
-                          width: 90.w,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              "https://images.pexels.com/photos/3610342/pexels-photo-3610342.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
+              // Container(
+              //   width: double.infinity,
+              //   height: 20.h,
+              //   decoration: BoxDecoration(color: Colors.red),
+              // ),
+              Expanded(
+                child: SlideAnimation(
+                  begin: const Offset(0, 300),
+                  child: Container(
+                    //sconstraints: BoxConstraints.expand(),
+                    height: MediaQuery.of(context).size.height - 230.h,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)),
+                        color: Colors.white),
+                    //width: MediaQuery.of(context).size.width,
+                    //height: MediaQuery.of(context).size.height,
+                    child: ListView(
+                      //physics: BouncingScrollPhysics(),
+                      children: [
+                        ListTile(
+                          trailing: Container(
+                            height: 90.h,
+                            width: 90.w,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                "https://images.pexels.com/photos/3610342/pexels-photo-3610342.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes !=
+                                              null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes!
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
+                          title: Text(
+                            "Toyota Matrix",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text("Hatchback | NYC55142 | 4 seats"),
                         ),
-                        title: Text(
-                          "Toyota Matrix",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text("Hatchback | NYC55142 | 4 seats"),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               )
             ],
-          ),
-        ));
+          )),
+    );
   }
 }

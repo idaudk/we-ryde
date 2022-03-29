@@ -35,7 +35,12 @@ class _Banner extends GetView<MyVehiclesController> {
               width: 90.w,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Icon(Iconsax.car)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children:[Icon(Iconsax.add_circle),
+                      SizedBox(height: 10.h,),
+                      Text("Add Vehicle")] )),
+
             ),
           )
         ],

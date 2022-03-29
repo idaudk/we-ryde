@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:weryde/app/features/Support/bindings/support_binding.dart';
+import 'package:weryde/app/features/Support/views/screen/support_screen.dart';
 import 'package:weryde/app/features/authentication/bindings/authentication_binding.dart';
 import 'package:weryde/app/features/authentication/views/screens/authentication_screen.dart';
 import 'package:weryde/app/features/bottom_nav_bar/bindings/bottom_nav_binding.dart';
@@ -60,6 +62,11 @@ abstract class AppPages {
       name: _Paths.myvehicles,
       page: () => MyVehiclesScreen(),
       binding: MyVehiclesBinding(),
+    ),
+    GetPage(
+      name: _Paths.support,
+      page: () => SupportScreen(),
+      binding: SupportBinding(),
     )
   ];
 }

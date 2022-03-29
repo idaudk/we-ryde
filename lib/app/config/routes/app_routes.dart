@@ -9,6 +9,8 @@ abstract class Routes {
   static const more = _Paths.more;
   static const bottomnav = _Paths.bottomnav;
   static const myvehicles = _Paths.myvehicles;
+  static const support = _Paths.support;
+
 }
 
 abstract class _Paths {
@@ -20,4 +22,6 @@ abstract class _Paths {
   static const more = '/more/';
   static const bottomnav = '/bottomnav/';
   static const myvehicles = '/myvehicles/';
+  static const support = '/support/';
+
 }
