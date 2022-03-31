@@ -64,8 +64,8 @@ class _Userinfo extends GetView<MoreController> {
                   ),
                 ),
                 Positioned(
-                  top: 30,
-                  left: -20,
+                  top: 25.h,
+                  left: -18.w,
                   child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
