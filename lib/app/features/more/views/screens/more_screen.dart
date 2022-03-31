@@ -19,7 +19,7 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Color(0xffebf2f8),
+        color: const Color(0xffebf2f8),
         height: MediaQuery.of(context).size.height,
         //key: _key,
         child: Column(
@@ -42,7 +42,7 @@ class MoreScreen extends StatelessWidget {
                 begin: const Offset(0, 300),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -58,22 +58,22 @@ class MoreScreen extends StatelessWidget {
                           ),
                           title: const Text(
                             "My Vehicle",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style:  TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: const Text("Add vehicle Information"),
                           onTap: () => Get.toNamed(Routes.myvehicles),
                         ),
                         ListTile(
-                          leading: Icon(
+                          leading: const Icon(
                             Iconsax.location,
                             color: Color(0xff0ec874),
                           ),
-                          title:Text(
+                          title:const Text(
                             "Manage Address",
                             style: TextStyle(fontWeight: FontWeight.bold),
 
                           ),
-                          subtitle: Text("Pre Saved Addresses"),
+                          subtitle: const Text("Pre Saved Addresses"),
                           onTap: () => Get.toNamed(Routes.manageaddress),
                         ),
                          ListTile(
@@ -91,15 +91,15 @@ class MoreScreen extends StatelessWidget {
 
                         ),
                         const ListTile(
-                          leading: const Icon(
+                          leading: Icon(
                             Iconsax.clipboard,
                             color: Color(0xff0ec874),
                           ),
-                          title: const Text(
+                          title: Text(
                             "Privacy Policy",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: const Text("Know our privacy policies"),
+                          subtitle: Text("Know our privacy policies"),
                         ),
                         const ListTile(
                           leading: Icon(
@@ -108,20 +108,22 @@ class MoreScreen extends StatelessWidget {
                           ),
                           title: Text(
                             "Change Language",
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style:  TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text("Set your prefered language"),
                         ),
-                        const ListTile(
-                          leading: Icon(
+                         ListTile(
+                          leading: const Icon(
                             Iconsax.message_question,
                             color: Color(0xff0ec874),
                           ),
-                          title: Text(
+                          title: const Text(
                             "FAQs",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text("get your Question's answered"),
+                          subtitle: const Text("get your Question's answered"),
+                          onTap: () => Get.toNamed(Routes.faq),
+
                         ),
                         const ListTile(
                           leading: Icon(

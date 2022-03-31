@@ -11,6 +11,8 @@ abstract class Routes {
   static const myvehicles = _Paths.myvehicles;
   static const support = _Paths.support;
   static const manageaddress = _Paths.manageaddress;
+  static const faq = _Paths.faq;
+
 
 
 }
@@ -26,6 +28,8 @@ abstract class _Paths {
   static const myvehicles = '/myvehicles/';
   static const support = '/support/';
   static const manageaddress = '/manage/';
+  static const faq = '/faq/';
+
 
 
 }

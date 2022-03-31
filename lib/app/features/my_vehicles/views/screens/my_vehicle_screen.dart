@@ -3,13 +3,15 @@ library my_vehciles_screen;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+
 import 'package:weryde/app/features/my_vehicles/controllers/my_vehicles_controller.dart';
 
 import '../../../../utils/animations/animations.dart';
 
 part '../components/appbar.dart';
 part '../components/banner.dart';
+part '../components/add_new_vehicles.dart';
+
 
 class MyVehiclesScreen extends StatelessWidget {
   MyVehiclesScreen({Key? key}) : super(key: key);
@@ -43,6 +45,7 @@ class MyVehiclesScreen extends StatelessWidget {
               //   height: 20.h,
               //   decoration: BoxDecoration(color: Colors.red),
               // ),
+              AddNewVehicles(),
               Expanded(
                 child: SlideAnimation(
                   begin: const Offset(0, 300),
@@ -58,6 +61,7 @@ class MyVehiclesScreen extends StatelessWidget {
                         color: Colors.white),
                     //width: MediaQuery.of(context).size.width,
                     //height: MediaQuery.of(context).size.height,
+
                     child: ListView(
                       //physics: BouncingScrollPhysics(),
                       children: [
@@ -88,6 +92,7 @@ class MyVehiclesScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+
                           title: Text(
                             "Toyota Matrix",
                             style: TextStyle(fontWeight: FontWeight.bold),
