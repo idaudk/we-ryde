@@ -12,6 +12,8 @@ abstract class Routes {
   static const support = _Paths.support;
   static const manageaddress = _Paths.manageaddress;
   static const user_profile = _Paths.user_profile;
+  static const faq = _Paths.faq;
+
 
 
 }
@@ -28,6 +30,8 @@ abstract class _Paths {
   static const support = '/support/';
   static const manageaddress = '/manage/';
   static const user_profile = '/user_profile/';
+  static const faq = '/faq/';
+
 
 
 }

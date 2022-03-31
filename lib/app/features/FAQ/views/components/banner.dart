@@ -1,6 +1,6 @@
-part of my_vehciles_screen;
+part of faq_screen;
 
-class _Banner extends GetView<MyVehiclesController> {
+class _Banner extends StatelessWidget{
   const _Banner({Key? key}) : super(key: key);
 
   @override
@@ -17,11 +17,11 @@ class _Banner extends GetView<MyVehiclesController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "My Vehicles",
+                  "FAQs",
                   style: TextStyle(fontSize: 28.r, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Vehicles you own",
+                  "Get your answer",
                   style: TextStyle(fontSize: 12.r, fontWeight: FontWeight.w400),
                 ),
               ],
@@ -34,7 +34,7 @@ class _Banner extends GetView<MyVehiclesController> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
-                "https://img.freepik.com/free-vector/car-ownership-usage-isometric-composition-with-bubble-protected-car-icon-with-sign-paper-agreement_1284-54551.jpg?t=st=1648718962~exp=1648719562~hmac=cb63564f610510b3d110ec668bc84c8a24383d9aa06341e371f2a0d9e04dbe7c&w=740",
+                  "https://img.freepik.com/free-vector/faq-concept-flat-background_23-2148146562.jpg?t=st=1648721042~exp=1648721642~hmac=46c36b43dde1aa29edc2c20d718f3e050e52331af8a26178de5b7bfab2a1397c&w=740",
                   fit: BoxFit.cover,
                   loadingBuilder: (BuildContext context, Widget child,
                       ImageChunkEvent? loadingProgress) {

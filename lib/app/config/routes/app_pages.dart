@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:weryde/app/features/FAQ/bindings/faq_binding.dart';
 import 'package:weryde/app/features/Support/bindings/support_binding.dart';
 import 'package:weryde/app/features/Support/views/screen/support_screen.dart';
 import 'package:weryde/app/features/authentication/bindings/authentication_binding.dart';
@@ -18,6 +19,7 @@ import 'package:weryde/app/features/splash/views/screens/splash_screen.dart';
 import 'package:weryde/app/features/user_profile/bindings/user_profile_binding.dart';
 import 'package:weryde/app/features/user_profile/views/screen/user_profile.dart';
 
+import '../../features/FAQ/views/screen/faq_screen.dart';
 import '../../features/manage_address/bindings/manage_address.dart';
 import '../../features/manage_address/views/screen/manage_address.dart';
 import '../../features/more/bindings/more_binding.dart';
@@ -81,6 +83,11 @@ abstract class AppPages {
         name: _Paths.user_profile,
         page: () => UserProfileScreen(),
         binding: UserProfileBinding(),
-        transition: Transition.cupertino)
+        transition: Transition.cupertino),
+    GetPage(
+      name: _Paths.faq,
+      page: () => FaqScreen(),
+      binding: FaqBinding(),
+    )
   ];
 }
