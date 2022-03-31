@@ -1,4 +1,5 @@
 part of faq_screen;
+
 class _AppBar extends StatelessWidget {
   const _AppBar({Key? key}) : super(key: key);
 
@@ -15,6 +16,10 @@ class _AppBar extends StatelessWidget {
               },
               child: const Icon(Icons.arrow_back)),
           SizedBox(width: 16.h),
+          Text(
+            'FAQs',
+            style: TextStyle(fontSize: 16.r, fontWeight: FontWeight.bold),
+          ),
           const Spacer(),
           // const Icon(
           //   Iconsax.heart5,

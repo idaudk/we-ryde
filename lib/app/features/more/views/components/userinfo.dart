@@ -21,6 +21,7 @@ class _Userinfo extends GetView<MoreController> {
                   : SlideAnimation(
                       begin: Offset(-250, 0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             controller.user.value?.name ?? "-",

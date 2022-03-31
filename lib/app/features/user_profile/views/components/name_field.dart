@@ -6,8 +6,7 @@ class _NameField extends GetView<UserProfileController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.isLoading.value
-        ? Align(
-            alignment: Alignment.topCenter, child: CircularProgressIndicator())
+        ? Align(alignment: Alignment.topCenter, child: Text(""))
         // : Card(
         //     child: ListTile(
         //       title: Text(controller.user.value?.name ?? "-"),

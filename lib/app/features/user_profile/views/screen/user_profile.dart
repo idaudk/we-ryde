@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:weryde/app/config/routes/app_pages.dart';
 import 'package:weryde/app/features/more/controllers/more_controller.dart';
 import 'package:weryde/app/utils/animations/animations.dart';
 
@@ -19,7 +18,8 @@ part '../components/save_button.dart';
 
 class UserProfileScreen extends StatelessWidget {
   UserProfileScreen({Key? key}) : super(key: key);
-  MoreController moreController = Get.put(MoreController());
+  UserProfileController userProfileController =
+      Get.put(UserProfileController());
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override
@@ -121,12 +121,26 @@ class UserProfileScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 30.h),
                           _NameField(),
-                          _EmailField(),
-                          _PhoneField(),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          _SavedButton()
+                          Obx(() => userProfileController.isLoading.value
+                              ? Align(
+                                  alignment: Alignment.topCenter,
+                                  child: CircularProgressIndicator())
+                              // : Card(
+                              //     child: ListTile(
+                              //       title: Text(controller.user.value?.name ?? "-"),
+                              //       subtitle: Text(controller.user.value?.phoneNumber ?? "-"),
+                              //     ),
+                              //   ),
+                              : Column(
+                                  children: [
+                                    _EmailField(),
+                                    _PhoneField(),
+                                    SizedBox(
+                                      height: 30.h,
+                                    ),
+                                    _SavedButton()
+                                  ],
+                                )),
                         ]),
                   ),
                 ),

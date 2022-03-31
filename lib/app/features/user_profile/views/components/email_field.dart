@@ -6,14 +6,7 @@ class _EmailField extends GetView<UserProfileController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.isLoading.value
-        ? Align(
-            alignment: Alignment.topCenter, child: CircularProgressIndicator())
-        // : Card(
-        //     child: ListTile(
-        //       title: Text(controller.user.value?.name ?? "-"),
-        //       subtitle: Text(controller.user.value?.phoneNumber ?? "-"),
-        //     ),
-        //   ),
+        ? Align(alignment: Alignment.topCenter, child: Text(""))
         : TextFormField(
             keyboardType: TextInputType.emailAddress,
             controller: controller.email,
