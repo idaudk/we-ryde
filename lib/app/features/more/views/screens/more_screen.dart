@@ -14,7 +14,7 @@ part '../components/userinfo.dart';
 class MoreScreen extends StatelessWidget {
   MoreScreen({Key? key}) : super(key: key);
   MoreController moreController = Get.put(MoreController());
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +63,18 @@ class MoreScreen extends StatelessWidget {
                           subtitle: const Text("Add vehicle Information"),
                           onTap: () => Get.toNamed(Routes.myvehicles),
                         ),
-                        const ListTile(
+                        ListTile(
                           leading: Icon(
                             Iconsax.location,
                             color: Color(0xff0ec874),
                           ),
-                          title: const Text(
+                          title:Text(
                             "Manage Address",
                             style: TextStyle(fontWeight: FontWeight.bold),
+
                           ),
                           subtitle: Text("Pre Saved Addresses"),
+                          onTap: () => Get.toNamed(Routes.manageaddress),
                         ),
                          ListTile(
                           leading: const Icon(

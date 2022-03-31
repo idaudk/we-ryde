@@ -16,6 +16,8 @@ import 'package:weryde/app/features/registration/bindings/registration_binding.d
 import 'package:weryde/app/features/registration/views/screens/registration_screen.dart';
 import 'package:weryde/app/features/splash/views/screens/splash_screen.dart';
 
+import '../../features/manage_address/bindings/manage_address.dart';
+import '../../features/manage_address/views/screen/manage_address.dart';
 import '../../features/more/bindings/more_binding.dart';
 
 part 'app_routes.dart';
@@ -67,6 +69,12 @@ abstract class AppPages {
       name: _Paths.support,
       page: () => SupportScreen(),
       binding: SupportBinding(),
+    ),
+    GetPage(
+      name: _Paths.manageaddress,
+      page: () => ManageAddressScreen(),
+      binding: ManageAddress(),
     )
+
   ];
 }
