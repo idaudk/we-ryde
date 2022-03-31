@@ -15,6 +15,8 @@ import 'package:weryde/app/features/my_vehicles/views/screens/my_vehicle_screen.
 import 'package:weryde/app/features/registration/bindings/registration_binding.dart';
 import 'package:weryde/app/features/registration/views/screens/registration_screen.dart';
 import 'package:weryde/app/features/splash/views/screens/splash_screen.dart';
+import 'package:weryde/app/features/user_profile/bindings/user_profile_binding.dart';
+import 'package:weryde/app/features/user_profile/views/screen/user_profile.dart';
 
 import '../../features/manage_address/bindings/manage_address.dart';
 import '../../features/manage_address/views/screen/manage_address.dart';
@@ -74,7 +76,11 @@ abstract class AppPages {
       name: _Paths.manageaddress,
       page: () => ManageAddressScreen(),
       binding: ManageAddress(),
-    )
-
+    ),
+    GetPage(
+        name: _Paths.user_profile,
+        page: () => UserProfileScreen(),
+        binding: UserProfileBinding(),
+        transition: Transition.cupertino)
   ];
 }

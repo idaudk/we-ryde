@@ -58,9 +58,10 @@ abstract class UserServices {
           .then((result) {
         if (result.docs.length > 0) {
           registrant = Registrant(
-            name: result.docs[0].data()['name'],
-            phoneNumber: phoneNumber,
-          );
+              name: result.docs[0].data()['name'],
+              phoneNumber: phoneNumber,
+              emailAddress: "-",
+              cnic: "-");
         }
       }).catchError((_) {});
     }
@@ -71,6 +72,12 @@ abstract class UserServices {
 class Registrant {
   String name;
   String phoneNumber;
+  late String emailAddress;
+  late String cnic;
 
-  Registrant({required this.name, required this.phoneNumber});
+  Registrant(
+      {required this.name,
+      required this.phoneNumber,
+      required this.emailAddress,
+      required this.cnic});
 }

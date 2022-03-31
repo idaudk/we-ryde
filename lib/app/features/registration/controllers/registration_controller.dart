@@ -18,10 +18,11 @@ class RegistrationController extends GetxController {
   void register() async {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
-      var updatedNumberwithCountryCode = "+92"+phoneNumber.text.trim();
+      var updatedNumberwithCountryCode = "+92" + phoneNumber.text.trim();
       print("User number is :" + updatedNumberwithCountryCode.toString());
       //UserServices.phoneNumberExists(phoneNumber.text.trim(), onError: (_) {})
-      UserServices.phoneNumberExists(updatedNumberwithCountryCode, onError: (_) {})
+      UserServices.phoneNumberExists(updatedNumberwithCountryCode,
+              onError: (_) {})
           .then((exist) {
         isLoading.value = false;
         if (exist) {
@@ -40,8 +41,11 @@ class RegistrationController extends GetxController {
           );
           Get.toNamed(
             Routes.authentication,
-            arguments:
-                Registrant(name: name.text, phoneNumber: updatedNumberwithCountryCode),
+            arguments: Registrant(
+                name: name.text,
+                phoneNumber: updatedNumberwithCountryCode,
+                emailAddress: "-",
+                cnic: "-"),
           );
         }
       });
