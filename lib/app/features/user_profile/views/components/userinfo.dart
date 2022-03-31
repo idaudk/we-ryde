@@ -19,14 +19,15 @@ class _Userinfo extends GetView<MoreController> {
                 : SlideAnimation(
                     begin: Offset(0, 500),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          controller.user.value?.name ?? "-",
+                          "My Profile",
                           style: TextStyle(
                               fontSize: 28.r, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          controller.user.value?.phoneNumber ?? "-",
+                          "Everything about you",
                           style: TextStyle(
                               fontSize: 12.r, fontWeight: FontWeight.w400),
                         ),
@@ -37,6 +38,7 @@ class _Userinfo extends GetView<MoreController> {
           SlideAnimation(
             begin: Offset(0, 500),
             child: Stack(
+              overflow: Overflow.visible,
               children: [
                 Container(
                   height: 90.h,
@@ -60,6 +62,22 @@ class _Userinfo extends GetView<MoreController> {
                       },
                     ),
                   ),
+                ),
+                Positioned(
+                  top: 30,
+                  left: -20,
+                  child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          color: Color(0xff0ec874),
+                          borderRadius: BorderRadius.circular(40)),
+                      width: 40.w,
+                      height: 40.h,
+                      child: Icon(
+                        Iconsax.gallery_edit,
+                        color: Colors.white,
+                        size: 20,
+                      )),
                 ),
               ],
             ),

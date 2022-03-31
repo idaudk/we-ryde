@@ -14,6 +14,8 @@ part '../components/appbar.dart';
 part '../components/userinfo.dart';
 part '../components/name_field.dart';
 part '../components/email_field.dart';
+part '../components/phone_field.dart';
+part '../components/save_button.dart';
 
 class UserProfileScreen extends StatelessWidget {
   UserProfileScreen({Key? key}) : super(key: key);
@@ -110,8 +112,21 @@ class UserProfileScreen extends StatelessWidget {
                           SizedBox(
                             height: 30.h,
                           ),
+                          Text(
+                            "Account Info",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11.sp,
+                                color: Colors.black.withOpacity(0.3)),
+                          ),
+                          SizedBox(height: 30.h),
                           _NameField(),
-                          _EmailField()
+                          _EmailField(),
+                          _PhoneField(),
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          _SavedButton()
                         ]),
                   ),
                 ),

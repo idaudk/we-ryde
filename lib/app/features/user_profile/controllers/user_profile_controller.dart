@@ -20,6 +20,7 @@ class UserProfileController extends GetxController {
       user.value = result;
       name.text = result!.name;
       email.text = result.emailAddress;
+      phoneNumber.text = result.phoneNumber;
       isLoading.value = false;
     });
     super.onInit();
