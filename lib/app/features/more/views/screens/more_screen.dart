@@ -90,16 +90,17 @@ class MoreScreen extends StatelessWidget {
                               onTap: () => Get.toNamed(Routes.support),
 
                         ),
-                        const ListTile(
-                          leading: Icon(
+                         ListTile(
+                          leading: const Icon(
                             Iconsax.clipboard,
                             color: Color(0xff0ec874),
                           ),
-                          title: Text(
-                            "Privacy Policy",
+                          title: const Text(
+                            "About_Us",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text("Know our privacy policies"),
+                          subtitle: const Text("Know our privacy policies"),
+                          onTap:()=> Get.toNamed(Routes.about_us),
                         ),
                         const ListTile(
                           leading: Icon(
