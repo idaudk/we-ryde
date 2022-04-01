@@ -13,6 +13,8 @@ abstract class Routes {
   static const manageaddress = _Paths.manageaddress;
   static const user_profile = _Paths.user_profile;
   static const faq = _Paths.faq;
+  static const chats = _Paths.chats;
+  static const trips = _Paths.trips;
 
 
 
@@ -31,6 +33,8 @@ abstract class _Paths {
   static const manageaddress = '/manage/';
   static const user_profile = '/user_profile/';
   static const faq = '/faq/';
+  static const chats = '/chats/';
+  static const trips = '/trips/';
 
 
 

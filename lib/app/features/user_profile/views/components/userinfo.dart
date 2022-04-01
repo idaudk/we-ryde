@@ -19,7 +19,7 @@ class _Userinfo extends GetView<MoreController> {
                 : SlideAnimation(
                     begin: Offset(0, 500),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "My Profile",

@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:weryde/app/features/bottom_nav_bar/controllers/bottom_nav_controller.dart';
+import 'package:weryde/app/features/chats/views/screens/chats_screen.dart';
 import 'package:weryde/app/features/home/views/views/home_screen.dart';
 import 'package:weryde/app/features/more/views/screens/more_screen.dart';
+import 'package:weryde/app/features/trips/views/screens/trips_screen.dart';
 
 class BottomNavigationBarUI extends StatelessWidget {
   BottomNavigationBarController bottomNavigationBarController =
@@ -14,6 +16,8 @@ class BottomNavigationBarUI extends StatelessWidget {
   BottomNavigationBarUI({Key? key}) : super(key: key);
   final screens = [
     HomeScreen(),
+    TripsScreen(),
+    ChatsScreen(),
     MoreScreen(),
   ];
 
@@ -64,6 +68,14 @@ class BottomNavigationBarUI extends StatelessWidget {
                   GButton(
                     icon: Iconsax.home,
                     text: "Home",
+                  ),
+                  GButton(
+                    icon: Iconsax.route_square4,
+                    text: "Trips",
+                  ),
+                  GButton(
+                    icon: Iconsax.message,
+                    text: "Chats",
                   ),
                   GButton(
                     icon: Iconsax.menu,
