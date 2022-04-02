@@ -128,11 +128,11 @@ class MoreScreen extends StatelessWidget {
                         ),
                         ListTile(
                           leading: const Icon(
-                            Iconsax.clipboard,
+                            Iconsax.information,
                             color: Color(0xff0ec874),
                           ),
                           title: const Text(
-                            "About_Us",
+                            "About Us",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: const Text("Know our privacy policies"),

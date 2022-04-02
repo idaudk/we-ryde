@@ -45,7 +45,6 @@ class Saeed extends StatelessWidget{
                       throw 'could not launch $url';
 
                     }},
-                  // onTap: ()=>Utils.openLink(url:"https://www.facebook.com/profile.php?id=100028878831211"),
                   child: FaIcon(FontAwesomeIcons.facebook),
                 ),
                 SizedBox(width: 10.w),

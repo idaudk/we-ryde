@@ -44,7 +44,6 @@ class AboutUsScreen extends StatelessWidget {
                   height: 50.h,
                 ),
                 const _Banner(),
-
                 CallToAction(),
                 Expanded(
 
