@@ -90,18 +90,7 @@ class MoreScreen extends StatelessWidget {
                               onTap: () => Get.toNamed(Routes.support),
 
                         ),
-                         ListTile(
-                          leading: const Icon(
-                            Iconsax.clipboard,
-                            color: Color(0xff0ec874),
-                          ),
-                          title: const Text(
-                            "About_Us",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: const Text("Know our privacy policies"),
-                          onTap:()=> Get.toNamed(Routes.about_us),
-                        ),
+
                         const ListTile(
                           leading: Icon(
                             Iconsax.language_circle,
@@ -136,6 +125,18 @@ class MoreScreen extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text("Change the Color theme of App"),
+                        ),
+                        ListTile(
+                          leading: const Icon(
+                            Iconsax.clipboard,
+                            color: Color(0xff0ec874),
+                          ),
+                          title: const Text(
+                            "About_Us",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: const Text("Know our privacy policies"),
+                          onTap:()=> Get.toNamed(Routes.about_us),
                         ),
                       ]),
                 ),
