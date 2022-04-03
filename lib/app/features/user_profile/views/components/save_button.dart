@@ -7,8 +7,10 @@ class _SavedButton extends GetView<UserProfileController> {
   Widget build(BuildContext context) {
     return Obx(
       () => ElevatedButton(
-        onPressed: controller.isLoading.value ? null : () => {},
-        child: controller.isLoading.value
+        onPressed: controller.isButtonLoading.value
+            ? null
+            : () => controller.updateUser(),
+        child: controller.isButtonLoading.value
             ? SizedBox(
                 width: 30,
                 height: 30,

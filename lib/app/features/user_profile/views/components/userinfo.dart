@@ -37,7 +37,7 @@ class _Userinfo extends GetView<UserProfileController> {
                     Container(
                       height: 90.h,
                       width: 90.w,
-                      child: controller.isLoading.value
+                      child: controller.imageIsLoading.value
                           ? Align(
                               alignment: Alignment.center,
                               child: CircularProgressIndicator())
@@ -51,7 +51,7 @@ class _Userinfo extends GetView<UserProfileController> {
                                       child: Image.network(
                                         controller.user.value!.profileImage ==
                                                 "-"
-                                            ? "https://alchinlong.com/wp-content/uploads/2015/09/sample-profile.png"
+                                            ? "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996"
                                             : controller
                                                 .user.value!.profileImage,
                                         fit: BoxFit.cover,

@@ -15,7 +15,7 @@ class _RegisterButton extends GetView<RegistrationController> {
                 height: 30,
                 child: CircularProgressIndicator(),
               )
-            : Text("Register"),
+            : Text("Register", style: TextStyle(color: Colors.white),),
       ),
     );
   }

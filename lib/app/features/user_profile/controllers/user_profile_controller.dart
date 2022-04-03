@@ -12,6 +12,8 @@ import '../../../config/routes/app_pages.dart';
 import '../../../utils/services/firebase_services.dart';
 
 class UserProfileController extends GetxController {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final _auth = FirebaseAuth.instance;
   late Rx<Registrant?> user = Rx(null);
 
@@ -20,6 +22,8 @@ class UserProfileController extends GetxController {
   final email = TextEditingController();
 
   var isLoading = true.obs;
+  var imageIsLoading = true.obs;
+  var isButtonLoading = true.obs;
 
   File? pickedImage;
   var showLocalImage = false.obs;
@@ -32,6 +36,8 @@ class UserProfileController extends GetxController {
       email.text = result.emailAddress;
       phoneNumber.text = result.phoneNumber;
       isLoading.value = false;
+      imageIsLoading.value = false;
+      isButtonLoading.value = false;
       print("user Profile Image URL: " + user.value!.profileImage.toString());
     });
     super.onInit();
@@ -90,5 +96,34 @@ class UserProfileController extends GetxController {
         Get.snackbar("Unable to upload image!", e.toString());
       }
     }
+  }
+
+  Future<void> updateUser() {
+    //isLoading.value = true;
+    isButtonLoading.value = true;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .update({
+      'name': name.text,
+      'email': email.text,
+      'phone_number': phoneNumber.text
+    }).then((value) {
+      isButtonLoading.value = false;
+      Get.snackbar("Profile Updated Sucessfully",
+          "Your profile informataion have been updated sucessfully",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+          icon: Icon(
+            Iconsax.tick_circle,
+          ),
+          shouldIconPulse: true);
+    }).catchError((error) {
+      isButtonLoading.value = false;
+      Get.snackbar("Failed to update profile", "$error",
+          snackPosition: SnackPosition.BOTTOM,
+          icon: Icon(Iconsax.wifi),
+          shouldIconPulse: true);
+    });
   }
 }

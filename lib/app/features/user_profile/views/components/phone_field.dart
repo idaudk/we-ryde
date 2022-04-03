@@ -6,8 +6,7 @@ class _PhoneField extends GetView<UserProfileController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => controller.isLoading.value
-        ? Align(
-            alignment: Alignment.topCenter, child: Text(""))
+        ? Align(alignment: Alignment.topCenter, child: Text(""))
         // : Card(
         //     child: ListTile(
         //       title: Text(controller.user.value?.name ?? "-"),
@@ -15,6 +14,7 @@ class _PhoneField extends GetView<UserProfileController> {
         //     ),
         //   ),
         : TextFormField(
+            readOnly: true,
             keyboardType: TextInputType.phone,
             controller: controller.phoneNumber,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -42,6 +42,5 @@ class _PhoneField extends GetView<UserProfileController> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black.withOpacity(0.3))),
           ));
-    
   }
 }

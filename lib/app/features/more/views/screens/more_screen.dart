@@ -41,10 +41,10 @@ class MoreScreen extends StatelessWidget {
             SizedBox(
               height: 25.h,
             ),
-            _TestingComp(),
-            SizedBox(
-              height: 25.h,
-            ),
+            // _TestingComp(),
+            // SizedBox(
+            //   height: 25.h,
+            // ),
             Expanded(
               child: SlideAnimation(
                 begin: const Offset(0, 300),
