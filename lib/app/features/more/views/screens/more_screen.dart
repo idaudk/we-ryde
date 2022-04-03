@@ -1,7 +1,9 @@
 library more_view;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
@@ -10,6 +12,8 @@ import 'package:weryde/app/utils/animations/animations.dart';
 
 part '../components/appbar.dart';
 part '../components/userinfo.dart';
+part '../components/testing_comp.dart';
+part '../components/user_stream.dart';
 
 class MoreScreen extends StatelessWidget {
   MoreScreen({Key? key}) : super(key: key);
@@ -37,6 +41,10 @@ class MoreScreen extends StatelessWidget {
             SizedBox(
               height: 25.h,
             ),
+            _TestingComp(),
+            SizedBox(
+              height: 25.h,
+            ),
             Expanded(
               child: SlideAnimation(
                 begin: const Offset(0, 300),
@@ -58,7 +66,7 @@ class MoreScreen extends StatelessWidget {
                           ),
                           title: const Text(
                             "My Vehicle",
-                            style:  TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: const Text("Add vehicle Information"),
                           onTap: () => Get.toNamed(Routes.myvehicles),
@@ -68,29 +76,26 @@ class MoreScreen extends StatelessWidget {
                             Iconsax.location,
                             color: Color(0xff0ec874),
                           ),
-                          title:const Text(
+                          title: const Text(
                             "Manage Address",
                             style: TextStyle(fontWeight: FontWeight.bold),
-
                           ),
                           subtitle: const Text("Pre Saved Addresses"),
                           onTap: () => Get.toNamed(Routes.manageaddress),
                         ),
-                         ListTile(
+                        ListTile(
                           leading: const Icon(
                             Iconsax.message,
                             color: Color(0xff0ec874),
                           ),
-                          title:  const Text(
+                          title: const Text(
                             "Support",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle:
-                               const Text("Connect us for issues & queries"),
-                              onTap: () => Get.toNamed(Routes.support),
-
+                              const Text("Connect us for issues & queries"),
+                          onTap: () => Get.toNamed(Routes.support),
                         ),
-
                         const ListTile(
                           leading: Icon(
                             Iconsax.language_circle,
@@ -98,11 +103,11 @@ class MoreScreen extends StatelessWidget {
                           ),
                           title: Text(
                             "Change Language",
-                            style:  TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text("Set your prefered language"),
                         ),
-                         ListTile(
+                        ListTile(
                           leading: const Icon(
                             Iconsax.message_question,
                             color: Color(0xff0ec874),
@@ -113,7 +118,6 @@ class MoreScreen extends StatelessWidget {
                           ),
                           subtitle: const Text("get your Question's answered"),
                           onTap: () => Get.toNamed(Routes.faq),
-
                         ),
                         const ListTile(
                           leading: Icon(
@@ -136,7 +140,7 @@ class MoreScreen extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: const Text("Know our privacy policies"),
-                          onTap:()=> Get.toNamed(Routes.about_us),
+                          onTap: () => Get.toNamed(Routes.about_us),
                         ),
                       ]),
                 ),

@@ -1,6 +1,6 @@
 part of user_profile_screen;
 
-class _AppBar extends GetView<MoreController> {
+class _AppBar extends GetView<UserProfileController> {
   _AppBar({Key? key}) : super(key: key);
 
   @override

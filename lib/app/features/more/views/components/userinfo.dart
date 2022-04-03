@@ -44,7 +44,9 @@ class _Userinfo extends GetView<MoreController> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996",
+                    controller.user.value!.profileImage == "-"
+                        ? "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996"
+                        : controller.user.value!.profileImage,
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
@@ -61,7 +63,18 @@ class _Userinfo extends GetView<MoreController> {
                   ),
                 ),
               ),
-            )
+            ),
+            // StreamBuilder(
+            //     stream: controller.getUserDataInRealTime(),
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         print("this is data from snapshot " +
+            //             snapshot.data.toString());
+            //         return Text(snapshot.data.toString());
+            //       } else {
+            //         return Container();
+            //       }
+            //     })
           ],
         ),
       ),

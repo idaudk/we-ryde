@@ -45,7 +45,9 @@ class RegistrationController extends GetxController {
                 name: name.text,
                 phoneNumber: updatedNumberwithCountryCode,
                 emailAddress: "-",
-                cnic: "-"),
+                cnic: "-",
+                profileImage: "-"
+                ),
           );
         }
       });
