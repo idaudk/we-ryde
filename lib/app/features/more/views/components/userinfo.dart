@@ -22,7 +22,7 @@ class _Userinfo extends GetView<MoreController> {
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return const Align(
-                        alignment: Alignment.topCenter,
+                        alignment: Alignment.center,
                         child: CircularProgressIndicator());
                   }
                   var userDocument = snapshot.data;

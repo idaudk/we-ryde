@@ -111,7 +111,7 @@ class UserProfileController extends GetxController {
     }).then((value) {
       isButtonLoading.value = false;
       Get.snackbar("Profile Updated Sucessfully",
-          "Your profile informataion have been updated sucessfully",
+          "Your profile informataion have been updated sucessfully.",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.white,
           icon: Icon(

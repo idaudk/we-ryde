@@ -1,13 +1,16 @@
 library home_view;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:weryde/app/features/home/controllers/home_controller.dart';
 
 import '../../controllers/home_controller.dart';
 
 part '../components/profile.dart';
 part '../components/drawer.dart';
+part '../components/appbar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -17,21 +20,34 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _key,
-      appBar: AppBar(
-        leading: IconButton(
-          color: Colors.grey,
-          icon: Icon(Icons.menu),
-          onPressed: () => _key.currentState!.openDrawer(),
-        ),
-      ),
-      body: Column(
+    return Container(
+      color: const Color(0xffebf2f8),
+      height: MediaQuery.of(context).size.height,
+      child: Column(
         children: [
-          Profile(),
+          SizedBox(
+            height: 40.h,
+          ),
+          _AppBar(),
+          SizedBox(
+            height: 40.h,
+          ),
+          Expanded(
+              child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Container(
+                height: 500.h,
+                color: Colors.pink,
+              ),
+              Container(
+                height: 400.h,
+                color: Colors.grey,
+              )
+            ],
+          ))
         ],
       ),
-      drawer: CustomDrawer(),
     );
   }
 }
