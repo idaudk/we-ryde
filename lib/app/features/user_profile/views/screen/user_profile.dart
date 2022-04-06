@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:weryde/app/features/more/controllers/more_controller.dart';
 import 'package:weryde/app/utils/animations/animations.dart';
 
 import '../../controllers/user_profile_controller.dart';
@@ -49,7 +48,7 @@ class UserProfileScreen extends StatelessWidget {
                   begin: const Offset(0, 300),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),

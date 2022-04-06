@@ -8,7 +8,7 @@ class Profile extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.isLoading.value
-          ? Align(
+          ? const Align(
               alignment: Alignment.topCenter,
               child: CircularProgressIndicator())
           : Card(

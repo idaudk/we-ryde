@@ -38,7 +38,7 @@ class _Userinfo extends GetView<UserProfileController> {
                       height: 90.h,
                       width: 90.w,
                       child: controller.imageIsLoading.value
-                          ? Align(
+                          ? const Align(
                               alignment: Alignment.center,
                               child: CircularProgressIndicator())
                           : GetBuilder<UserProfileController>(
@@ -106,7 +106,8 @@ class _Userinfo extends GetView<UserProfileController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton.icon(
-                                        onPressed: () {},
+                                        onPressed: () =>
+                                              controller.pickImageFromCamera(),
                                         icon: const Icon(Iconsax.camera),
                                         label: const Text("Camera")),
                                     TextButton.icon(

@@ -33,28 +33,28 @@ class AuthenticationScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
-                Container(alignment: Alignment.topLeft, child: BackButton()),
-                Spacer(flex: 2),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                const SizedBox(height: 20),
+                Container(alignment: Alignment.topLeft, child: const BackButton()),
+                const Spacer(flex: 2),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: _HeaderText(),
                 ),
-                Spacer(flex: 4),
-                _IllustrationImage(),
-                Spacer(flex: 4),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                const Spacer(flex: 4),
+                const _IllustrationImage(),
+                const Spacer(flex: 4),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
                   child: _PinAutoField(),
                 ),
-                Spacer(flex: 3),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                const Spacer(flex: 3),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: _VerificationButton(),
                 ),
-                Spacer(flex: 5),
-                _ResendButton(),
-                Spacer(flex: 2),
+                const Spacer(flex: 5),
+                const _ResendButton(),
+                const Spacer(flex: 2),
               ],
             ),
           ),
