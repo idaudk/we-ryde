@@ -1,6 +1,8 @@
 part of more_view;
 
 class _AppBar extends GetView<MoreController> {
+  final _auth = FirebaseAuth.instance;
+
   _AppBar({Key? key}) : super(key: key);
 
   @override
@@ -22,9 +24,16 @@ class _AppBar extends GetView<MoreController> {
           SizedBox(
             width: 16.h,
           ),
-          const Icon(Iconsax.logout_14)
+          InkWell(
+            onTap: () => _Logout(),
+            child: const Icon(Iconsax.logout_14),
+          )
         ],
       ),
     );
+  }
+
+  _Logout() async {
+    await _auth.signOut().then((value) => Get.offNamed(Routes.login));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import '../../../config/routes/app_pages.dart';
+
 import '../../../utils/services/firebase_services.dart';
 
 class MoreController extends GetxController {
@@ -21,16 +21,14 @@ class MoreController extends GetxController {
     super.onInit();
   }
 
+
+
   // Testing Code --- idaudk
   // @override
   // void onReady() {
   //   super.onReady();
   //   registrantList.bindStream(UserServices.userDataStream());
   // }
-
-  void logout() async {
-    await auth.signOut().then((value) => Get.offNamed(Routes.login));
-  }
 
   // Testing Code ----Idaudk
   // Stream getUserDataInRealTime() {

@@ -1,9 +1,11 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
 import 'package:weryde/app/utils/services/firebase_services.dart';
 
 class HomeController extends GetxController {
+
   final _auth = FirebaseAuth.instance;
   late Rx<Registrant?> user = Rx(null);
   var isLoading = true.obs;

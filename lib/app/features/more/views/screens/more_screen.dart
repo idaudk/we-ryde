@@ -1,9 +1,10 @@
 library more_view;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
