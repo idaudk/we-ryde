@@ -97,6 +97,7 @@ class UserProfileController extends GetxController {
       }
     }
   }
+
   pickImageFromCamera() async {
     XFile? file = await ImagePicker().pickImage(source: ImageSource.camera);
     if (file == null) {

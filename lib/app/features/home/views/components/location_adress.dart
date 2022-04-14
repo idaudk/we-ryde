@@ -13,12 +13,12 @@ class _LocationState extends State<Location> {
   final _endSearchFieldController = TextEditingController();
   late GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
-  // @override
-  // void initState() {
-  //   //
-  //   super.initState();
-  //   String apikey="AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw";
-  // }
+  @override
+  void initState() {
+  
+    super.initState();
+    String apikey="AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw";
+  }
 
 
   @override
