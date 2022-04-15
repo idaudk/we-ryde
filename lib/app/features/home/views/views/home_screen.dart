@@ -49,27 +49,56 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(bottom: 210),
-                        child: Obx(
-                              () => homeController.isLoading.value
-                              ? const Align(
-                              alignment: Alignment.topCenter,
-                              child: CircularProgressIndicator())
-                            : GoogleMap(
-                            myLocationButtonEnabled: true,
-                            padding: EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 24.h),
-                            markers: Set<Marker>.of(homeController.marker),
-                            initialCameraPosition: homeController.kGoogleplace,
-                            onMapCreated: (GoogleMapController controller) {
-                              homeController.controller.complete(controller);
-                            },
-                            myLocationEnabled: true,
-                            mapType: MapType.normal,
-                            compassEnabled: true,
+                          margin: const EdgeInsets.only(bottom: 210),
+                          child: GetBuilder(
+                            init: HomeController(),
+                            builder: (value) => GoogleMap(
+                              myLocationButtonEnabled: true,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 24.h),
+                              markers: Set.of((homeController.marker != null)
+                                  ? [homeController.marker]
+                                  : []),
+                              circles: Set.of((homeController.circle != null)
+                                  ? [homeController.circle]
+                                  : []),
+                              initialCameraPosition:
+                                  homeController.initialLocation,
+                              onMapCreated: (GoogleMapController controller) {
+                                homeController.mapController = controller;
+                              },
+                              //myLocationEnabled: true,
+                              mapType: MapType.normal,
+                              compassEnabled: true,
+                            ),
+                          )
+
+                          // Obx(
+                          //   () => homeController.isLoading.value
+                          //       ? const Align(
+                          //           alignment: Alignment.center,
+                          //           child: CircularProgressIndicator())
+                          //       : GoogleMap(
+                          //           myLocationButtonEnabled: true,
+                          //           padding: EdgeInsets.symmetric(
+                          //               horizontal: 24, vertical: 24.h),
+                          //           markers:
+                          //               Set.of((homeController.marker != null)? [homeController.marker]: []),
+                          //           circles:
+                          //               Set.of((homeController.marker != null)? [homeController.circle]: []),
+                          //           initialCameraPosition:
+                          //               homeController.kGoogleplace,
+                          //           onMapCreated:
+                          //               (GoogleMapController controller) {
+                          //             homeController.controller
+                          //                 .complete(controller);
+                          //           },
+                          //           myLocationEnabled: true,
+                          //           mapType: MapType.normal,
+                          //           compassEnabled: true,
+                          //         ),
+                          // ),
                           ),
-                        ),
-                      ),
 
                       ContainerNav()
                       // Container(

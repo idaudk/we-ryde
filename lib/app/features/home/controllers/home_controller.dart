@@ -20,17 +20,20 @@ class HomeController extends GetxController {
   final endSearchFieldController = TextEditingController();
 
   late GooglePlace googlePlace;
-  late Circle circle;
-    late CameraPosition kGoogleplace;
-  List<Marker> marker = [];
-  final List<Marker> list = const [
-    Marker(
-        infoWindow: InfoWindow(title: "My Location"),
-        markerId: MarkerId("1"),
-        position: LatLng(27.2046, 77.4977))
-  ];
-  List<AutocompletePrediction> predictions = [];
-  Completer<GoogleMapController> controller = Completer();
+  late Circle circle = Circle(circleId: CircleId('Home'));
+  CameraPosition? kGoogleplace;
+  CameraPosition initialLocation = CameraPosition(
+      target: LatLng(34.01877029295088, 71.53112872504462), zoom: 14.4746);
+  late Marker marker = const Marker(markerId: MarkerId("1"));
+  //List<Marker> marker = [];
+  // List<Marker> list = const [
+  //   Marker(
+  //       infoWindow: InfoWindow(title: "My Location"),
+  //       markerId: MarkerId("1"),
+  //       position: LatLng(27.2046, 77.4977))
+  // ];
+  // List<AutocompletePrediction> predictions = [];
+  late GoogleMapController mapController;
 
   var latitude = 'loading'.obs;
   var longitude = 'loading'.obs;
@@ -47,8 +50,8 @@ class HomeController extends GetxController {
     });
     super.onInit();
     getLocation();
-    marker.addAll(list);
-
+    //kGoogleplace = CameraPosition(target: target)
+    //marker.addAll(list);
   }
 
   void logout() async {
@@ -78,11 +81,22 @@ class HomeController extends GetxController {
     }
     streamSubscription =
         Geolocator.getPositionStream().listen((Position position) {
-          latitude.value = position.latitude.toString();
+      latitude.value = position.latitude.toString();
       longitude.value = position.longitude.toString();
       getAddressFromlatLang(position);
-          kGoogleplace= CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 14);
-        });
+      // kGoogleplace = CameraPosition(
+      //     target: LatLng(position.latitude, position.longitude), zoom: 14);
+
+      if (mapController != null)
+        mapController.animateCamera(CameraUpdate.newCameraPosition(
+            CameraPosition(
+                bearing: 192.8334901395799,
+                target: LatLng(position.latitude, position.longitude),
+                tilt: 0,
+                zoom: 15.00)));
+      updateMarkerAndCircle(position);
+      update();
+    });
   }
 
   Future<void> getAddressFromlatLang(Position position) async {
@@ -92,5 +106,32 @@ class HomeController extends GetxController {
     address.value = '${place.subLocality}, ${place.locality}, ${place.country}';
     startSearchFieldController.text = address.value;
     isLocationLocation.value = false;
+  }
+
+  void updateMarkerAndCircle(Position newLocalData) {
+    LatLng latLng = LatLng(newLocalData.latitude, newLocalData.longitude);
+    marker = Marker(
+      markerId: const MarkerId("You are here"),
+      position: latLng,
+      rotation: newLocalData.heading as double,
+      draggable: false,
+      zIndex: 2,
+      flat: true,
+      anchor: const Offset(0.5, 0.5),
+    );
+    circle = Circle(
+        circleId: const CircleId("Your Current Location"),
+        radius: newLocalData.accuracy as double,
+        zIndex: 1,
+        strokeColor: Colors.blue,
+        center: latLng,
+        fillColor: Colors.blue.withAlpha(70));
+
+    // mapController.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+    //           bearing: 192.8334901395799,
+    //           target: LatLng(newLocalData.latitude, newLocalData.longitude),
+    //           tilt: 0,
+    //           zoom: 18.00)));
+    update();
   }
 }
