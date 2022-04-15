@@ -27,25 +27,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
-
   HomeController homeController = Get.put(HomeController());
-  Completer<GoogleMapController> _controller = Completer();
-  static final CameraPosition _kGoogleplace =
-      CameraPosition(target: LatLng(27.2046, 77.4977), zoom: 14);
-  List<Marker> _marker = [];
-  final List<Marker> _list = const [
-    Marker(
-        infoWindow: InfoWindow(title: "My Location"),
-        markerId: MarkerId("1"),
-        position: LatLng(27.2046, 77.4977))
-  ];
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _marker.addAll(_list);
-    // String apikey='AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw';
-    // googlePlace =GooglePlace(apikey);
-  }
+  // void initState() {
+  //
+  //   super.initState();
+  //   marker.addAll(list);
+  //   // String apikey='AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw';
+  //   // googlePlace =GooglePlace(apikey);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,21 +49,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(bottom: 205),
-                        child: GoogleMap(
-                          myLocationButtonEnabled: true,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 24.h),
-                          markers: Set<Marker>.of(_marker),
-                          initialCameraPosition: _kGoogleplace,
-                          onMapCreated: (GoogleMapController controller) {
-                            _controller.complete(controller);
-                          },
-                          mapType: MapType.normal,
-                          myLocationEnabled: true,
-                          compassEnabled: true,
+                        margin: const EdgeInsets.only(bottom: 210),
+                        child: Obx(
+                              () => homeController.isLoading.value
+                              ? const Align(
+                              alignment: Alignment.topCenter,
+                              child: CircularProgressIndicator())
+                            : GoogleMap(
+                            myLocationButtonEnabled: true,
+                            padding: EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 24.h),
+                            markers: Set<Marker>.of(homeController.marker),
+                            initialCameraPosition: homeController.kGoogleplace,
+                            onMapCreated: (GoogleMapController controller) {
+                              homeController.controller.complete(controller);
+                            },
+                            myLocationEnabled: true,
+                            mapType: MapType.normal,
+                            compassEnabled: true,
+                          ),
                         ),
                       ),
+
                       ContainerNav()
                       // Container(
                       //   height: 100.h,

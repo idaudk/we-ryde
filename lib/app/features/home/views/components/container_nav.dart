@@ -15,7 +15,7 @@ class ContainerNav extends GetView<HomeController> {
               //color: const Color(0xff0ec874),
               decoration: const BoxDecoration(
                   //color: Color.fromARGB(255, 5, 177, 99),
-                  color: const Color(0xffebf2f8),
+                  color: Color(0xffebf2f8),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(11),
                     topRight: Radius.circular(11),

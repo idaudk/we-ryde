@@ -51,6 +51,7 @@ dependencies:
   url_launcher:
   image_picker: ^0.8.4+11
   fluttertoast: ^8.0.9
+  location: ^4.3.0
   
   
   google_maps_flutter: ^2.1.3
