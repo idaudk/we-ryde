@@ -1,7 +1,5 @@
 library home_view;
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -25,9 +23,11 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   HomeController homeController = Get.put(HomeController());
+
   // void initState() {
   //
   //   super.initState();
@@ -37,7 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
   // }
 
   @override
+  void initState() {
+    super.initState();
+    homeController.getLocation(context);
+    print("Home screen init called");
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    super.dispose();
+    homeController.mapController.dispose();
+    homeController.streamSubscription.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
         length: 2,
         child: Container(
@@ -64,10 +82,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : []),
                               initialCameraPosition:
                                   homeController.initialLocation,
+
+                              //onMapCreated: homeController.onMapCreated(homeController.mapController),
                               onMapCreated: (GoogleMapController controller) {
+                                //homeController.mapCompleter.complete() = controller;
                                 homeController.mapController = controller;
                               },
-                              //myLocationEnabled: true,
+                              // onMapCreated: (GoogleMapController controller) {
+                              //   if (!homeController.mapCompleter.isCompleted) {
+                              //     homeController.mapCompleter
+                              //         .complete(controller);
+                              //     homeController.mapController = controller;
+                              //   }
+                              // },
+                              myLocationEnabled: true,
                               mapType: MapType.normal,
                               compassEnabled: true,
                             ),

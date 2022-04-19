@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,16 @@ class HomeController extends GetxController {
   late Circle circle = Circle(circleId: CircleId('Home'));
   CameraPosition? kGoogleplace;
   CameraPosition initialLocation = CameraPosition(
-      target: LatLng(34.01877029295088, 71.53112872504462), zoom: 14.4746);
+      target: LatLng(34.01877029295088, 71.53112872504462), zoom: 5);
+
+  late BitmapDescriptor customIcon;
+
+  Future<Uint8List> getMarker(context) async {
+    ByteData byteData = await DefaultAssetBundle.of(context)
+        .load("assets/images/raster/user.png");
+    return byteData.buffer.asUint8List();
+  }
+
   late Marker marker = const Marker(markerId: MarkerId("1"));
   //List<Marker> marker = [];
   // List<Marker> list = const [
@@ -34,6 +44,12 @@ class HomeController extends GetxController {
   // ];
   // List<AutocompletePrediction> predictions = [];
   late GoogleMapController mapController;
+  Completer<GoogleMapController> mapCompleter = Completer();
+
+  // onMapCreated(GoogleMapController controller) {
+  //   controller.setMapStyle(Utils.mapStyles);
+  //   mapCompleter.complete(controller);
+  // }
 
   var latitude = 'loading'.obs;
   var longitude = 'loading'.obs;
@@ -48,17 +64,30 @@ class HomeController extends GetxController {
       user.value = result;
       isLoading.value = false;
     });
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(12, 12)),
+            'assets/images/raster/user.png')
+        .then((d) {
+      customIcon = d;
+    });
     super.onInit();
-    getLocation();
-    //kGoogleplace = CameraPosition(target: target)
-    //marker.addAll(list);
+    //getLocation();
   }
+
+  // @override
+  // void onClose() {
+  //   // TODO: implement onClose
+  //   super.onClose();
+  //   mapController.dispose();
+  //   streamSubscription.cancel();
+  // }
 
   void logout() async {
     await _auth.signOut().then((value) => Get.offNamed(Routes.login));
   }
 
-  getLocation() async {
+  getLocation(BuildContext context) async {
+    Uint8List imageData = await getMarker(context);
+
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -88,13 +117,13 @@ class HomeController extends GetxController {
       //     target: LatLng(position.latitude, position.longitude), zoom: 14);
 
       if (mapController != null)
-        mapController.animateCamera(CameraUpdate.newCameraPosition(
-            CameraPosition(
-                bearing: 192.8334901395799,
+        mapController
+            .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+                //bearing: 192.8334901395799,
                 target: LatLng(position.latitude, position.longitude),
                 tilt: 0,
                 zoom: 15.00)));
-      updateMarkerAndCircle(position);
+      updateMarkerAndCircle(position, imageData);
       update();
     });
   }
@@ -108,30 +137,33 @@ class HomeController extends GetxController {
     isLocationLocation.value = false;
   }
 
-  void updateMarkerAndCircle(Position newLocalData) {
+  void updateMarkerAndCircle(Position newLocalData, Uint8List imageData) {
     LatLng latLng = LatLng(newLocalData.latitude, newLocalData.longitude);
     marker = Marker(
-      markerId: const MarkerId("You are here"),
-      position: latLng,
-      rotation: newLocalData.heading as double,
-      draggable: false,
-      zIndex: 2,
-      flat: true,
-      anchor: const Offset(0.5, 0.5),
-    );
-    circle = Circle(
-        circleId: const CircleId("Your Current Location"),
-        radius: newLocalData.accuracy as double,
-        zIndex: 1,
-        strokeColor: Colors.blue,
-        center: latLng,
-        fillColor: Colors.blue.withAlpha(70));
-
-    // mapController.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
-    //           bearing: 192.8334901395799,
-    //           target: LatLng(newLocalData.latitude, newLocalData.longitude),
-    //           tilt: 0,
-    //           zoom: 18.00)));
+        markerId: MarkerId("home"),
+        position: latLng,
+       // rotation: newLocalData.heading,
+        draggable: true,
+        zIndex: 2,
+        flat: true,
+        anchor: Offset(0.5, 0.9),
+        icon: BitmapDescriptor.fromBytes(imageData));
+    // marker = Marker(
+    //   markerId: const MarkerId("You are here"),
+    //   position: latLng,
+    //   rotation: newLocalData.heading as double,
+    //   draggable: false,
+    //   zIndex: 2,
+    //   flat: true,
+    //   anchor: const Offset(0.5, 0.5),
+    // );
+    // circle = Circle(
+    //     circleId: const CircleId("Your Current Location"),
+    //     radius: newLocalData.accuracy as double,
+    //     zIndex: 1,
+    //     strokeColor: Colors.blue,
+    //     center: latLng,
+    //     fillColor: Colors.blue.withAlpha(70));
     update();
   }
 }
