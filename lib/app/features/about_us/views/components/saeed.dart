@@ -16,7 +16,7 @@ class Saeed extends StatelessWidget{
             borderRadius:
             BorderRadius.circular(12),
             child: Image.network(
-              "https://scontent.fpew1-1.fna.fbcdn.net/v/t39.30808-6/274870186_753273965645224_8061862126808114820_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=174925&_nc_eui2=AeGaM3CdC4HKwhQvHhlrCsU0_GkyKsrUxTH8aTIqytTFMUI34hAvSRxR6PC8DDVACvx_weCUnigPXfEmakZW4iij&_nc_ohc=LGs2Y6EfgYEAX_L8ATh&_nc_ht=scontent.fpew1-1.fna&oh=00_AT9UpA1VtxyE-wDImX8bMIW68YLoT_gr99LxTnD35Wjw0Q&oe=624CD96F",
+              "https://avatars.githubusercontent.com/u/102222524?v=4",
               fit: BoxFit.cover,
             ),
           ),

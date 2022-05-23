@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
 import 'package:weryde/app/utils/services/firebase_services.dart';
 
@@ -56,7 +57,10 @@ class HomeController extends GetxController {
   var address = 'loading'.obs;
   late StreamSubscription<Position> streamSubscription;
 
-  String apikey = "AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw";
+  //String apikey = "AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw";
+  String apikey = "AIzaSyAKo0VW69mMMtrCeJ79AXYjpqGVwr3pM9I";
+
+  //AIzaSyAKo0VW69mMMtrCeJ79AXYjpqGVwr3pM9I
 
   @override
   void onInit() async {
@@ -70,15 +74,26 @@ class HomeController extends GetxController {
       customIcon = d;
     });
     super.onInit();
+    //mapController.setMapStyle(Utils.mapStyles);
     //getLocation();
+  }
+
+  void showPlacePicker(context) async {
+    LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PlacePicker(
+              apikey,
+            )));
+
+    // Handle the result in your way
+    print(result);
   }
 
   // @override
   // void onClose() {
   //   // TODO: implement onClose
   //   super.onClose();
-  //   mapController.dispose();
-  //   streamSubscription.cancel();
+  //   // mapController.dispose();
+  //   // streamSubscription.cancel();
   // }
 
   void logout() async {
@@ -116,13 +131,14 @@ class HomeController extends GetxController {
       // kGoogleplace = CameraPosition(
       //     target: LatLng(position.latitude, position.longitude), zoom: 14);
 
-      if (mapController != null)
+      if (mapController != null) {
         mapController
             .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
                 //bearing: 192.8334901395799,
                 target: LatLng(position.latitude, position.longitude),
                 tilt: 0,
                 zoom: 15.00)));
+      }
       updateMarkerAndCircle(position, imageData);
       update();
     });
@@ -142,7 +158,7 @@ class HomeController extends GetxController {
     marker = Marker(
         markerId: MarkerId("home"),
         position: latLng,
-       // rotation: newLocalData.heading,
+        // rotation: newLocalData.heading,
         draggable: true,
         zIndex: 2,
         flat: true,

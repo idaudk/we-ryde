@@ -9,8 +9,7 @@ class ContainerNav extends GetView<HomeController> {
     return Obx(
       () => controller.isLoading.value
           ? const Align(
-              alignment: Alignment.topCenter,
-              child: CircularProgressIndicator())
+              alignment: Alignment.center, child: CircularProgressIndicator())
           : Container(
               //color: const Color(0xff0ec874),
               decoration: const BoxDecoration(
@@ -20,7 +19,7 @@ class ContainerNav extends GetView<HomeController> {
                     topLeft: Radius.circular(11),
                     topRight: Radius.circular(11),
                   )),
-              height: 200.h,
+              height: 250.h,
               child: TabContainer(
                 radius: 11,
                 tabCurve: Curves.easeIn,

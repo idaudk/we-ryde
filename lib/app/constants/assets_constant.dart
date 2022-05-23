@@ -12,4 +12,5 @@ abstract class ImageRasterConstant {
   static const _folder = "assets/images/raster/";
 
   static const logoGiaDeveloper = _folder + "logo_gia_developer.png";
+  static const appLogo = _folder + "app_icon.png";
 }

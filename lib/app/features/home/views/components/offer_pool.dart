@@ -1,46 +1,142 @@
 part of home_view;
 
 class OfferPool extends GetView<HomeController> {
-  const OfferPool({Key? key}) : super(key: key);
+  OfferPool({Key? key}) : super(key: key);
+
+  final List<Map<String, dynamic>> _items = [
+    {
+      'value': 'Carolla',
+      'label': 'Toyota Carolla Xli',
+      'icon': Icon(Iconsax.car),
+      'textStyle': TextStyle(color: Colors.green),
+    },
+    {
+      'value': 'Mazda',
+      'label': 'Mazda RX8',
+      'icon': Icon(Iconsax.car),
+      'textStyle': TextStyle(color: Colors.green),
+    },
+    {
+      'value': 'starValue',
+      'label': 'Star Label',
+      'enable': false,
+      'icon': Icon(Icons.grade),
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => controller.isLoading.value
-          ? const Align(
-              alignment: Alignment.topCenter,
-              child: CircularProgressIndicator())
-          : Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        children: const [
-                          ListTile(
-                            leading: Icon(
-                              Iconsax.message,
-                            ),
-                            title: Text(
-                              "Support",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text("Connect us for issues & queries"),
-                            //onTap: () => Get.toNamed(Routes.support),
-                          ),
-                          ListTile(
-                            leading: Icon(
-                              Iconsax.message,
-                            ),
-                            title: Text(
-                              "Support",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text("Connect us for issues & queries"),
-                            //onTap: () => Get.toNamed(Routes.support),
-                          ),
-                          
-                        ]),
+    return Obx(() => controller.isLoading.value
+        ? const Align(
+            alignment: Alignment.center, child: CircularProgressIndicator())
+        : Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: ListView(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  // Obx(
+                  //   () => controller.isLocationLocation.value
+                  //       ? Align(alignment: Alignment.center, child: Text(""))
+                  InkWell(
+                    onTap: () {
+                      controller.showPlacePicker(context);
+                    },
+                    child: TextFormField(
+                      enabled: false,
+                      onTap: (() {
+                        Get.snackbar("Hellow World", "just doing some testing");
+                      }),
+                      controller: controller.startSearchFieldController,
+                      keyboardType: TextInputType.text,
+
+                      decoration: const InputDecoration(
+                        labelText: "Start Location",
+                        icon: Icon(
+                          Iconsax.gps,
+                          color: Color(0xff0FC874),
+                        ),
+                        filled: false,
+                        focusedBorder: UnderlineInputBorder(),
+                        enabledBorder: UnderlineInputBorder(),
+                        errorBorder: UnderlineInputBorder(),
+                        focusedErrorBorder: UnderlineInputBorder(),
+                      ),
+                      // onChanged: (value) {
+                      //   if (value.isNotEmpty) {
+
+                      //   } else {
+                      //     if (controller.predictions.length > 0 && mounted) {
+                      //       setState(() {
+                      //         predictions = [];
+                      //       });
+                      //     }
+                      //   }
+                      // },
+                    ),
                   ),
-    );
+                  //   ),
+                  TextFormField(
+                      controller: controller.endSearchFieldController,
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                        labelText: "Drop Location",
+                        icon: Icon(
+                          Iconsax.location,
+                          color: Colors.red,
+                        ),
+                        filled: false,
+                        focusedBorder: UnderlineInputBorder(),
+                        enabledBorder: UnderlineInputBorder(),
+                        errorBorder: UnderlineInputBorder(),
+                        focusedErrorBorder: UnderlineInputBorder(),
+                      )),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  DateTimePicker(
+                    type: DateTimePickerType.dateTimeSeparate,
+                    dateMask: 'd MMM, yyyy',
+                    initialValue: DateTime.now().toString(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                    icon: Icon(Icons.event),
+                    dateLabelText: 'Date',
+                    timeLabelText: "Hour",
+                    selectableDayPredicate: (date) {
+                      // Disable weekend days to select from the calendar
+                      if (date.weekday == 6 || date.weekday == 7) {
+                        return false;
+                      }
+                      return true;
+                    },
+                    onChanged: (val) => print(val),
+                    validator: (val) {
+                      print(val);
+                      return null;
+                    },
+                    onSaved: (val) => print(val),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SelectFormField(
+                    type: SelectFormFieldType.dropdown, // or can be dialog
+                    //initialValue: '',
+                    icon: Icon(Iconsax.car4),
+                    labelText: 'Select Vehicle',
+                    items: _items,
+                    onChanged: (val) => print(val),
+                    onSaved: (val) => print(val),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  _OfferPoolButton(),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                ]),
+          ));
   }
 }

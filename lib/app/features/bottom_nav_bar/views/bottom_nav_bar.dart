@@ -36,11 +36,13 @@ class BottomNavigationBarUI extends StatelessWidget {
                 child: child,
               );
             },
-            child: screens[bottomNavigationBarController.selectedIndex.value],
-            //   IndexedStack(
-            //   index: bottomNavigationBarController.selectedIndex.value,
-            //   children: screens,
-            // ),
+            // below statement provides animations but doesnot save widget state
+            // child: screens[bottomNavigationBarController.selectedIndex.value],
+            // this state save widget state
+            child: IndexedStack(
+              index: bottomNavigationBarController.selectedIndex.value,
+              children: screens,
+            ),
           )),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),

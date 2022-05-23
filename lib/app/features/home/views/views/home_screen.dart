@@ -1,11 +1,14 @@
 library home_view;
 
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:select_form_field/select_form_field.dart';
 import 'package:tab_container/tab_container.dart';
+import 'package:weryde/app/constants/map_constant.dart';
 import 'package:weryde/app/features/home/controllers/home_controller.dart';
 
 import '../../controllers/home_controller.dart';
@@ -16,6 +19,8 @@ part '../components/appbar.dart';
 part '../components/container_nav.dart';
 part '../components/find_pool.dart';
 part '../components/offer_pool.dart';
+part '../components/offer_pool_button.dart';
+part '../components/find_pool_button.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -39,19 +44,20 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    homeController.getLocation(context);
+    //homeController.getLocation(context);
+    //homeController.mapController.setMapStyle(Utils.mapStyles);
     print("Home screen init called");
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  @override
-  void dispose() {
-    super.dispose();
-    homeController.mapController.dispose();
-    homeController.streamSubscription.cancel();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   //homeController.mapController.dispose();
+  //   //homeController.streamSubscription.cancel();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +73,14 @@ class _HomeScreenState extends State<HomeScreen>
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Container(
-                          margin: const EdgeInsets.only(bottom: 210),
+                          margin: EdgeInsets.only(bottom: 230.h),
+                          //padding: EdgeInsets.only(top: 10.h),
                           child: GetBuilder(
                             init: HomeController(),
                             builder: (value) => GoogleMap(
                               myLocationButtonEnabled: true,
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 24.h),
+                                  horizontal: 24, vertical: 30.h),
                               markers: Set.of((homeController.marker != null)
                                   ? [homeController.marker]
                                   : []),
@@ -87,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen>
                               onMapCreated: (GoogleMapController controller) {
                                 //homeController.mapCompleter.complete() = controller;
                                 homeController.mapController = controller;
+                                controller.setMapStyle(Utils.mapStyles);
                               },
                               // onMapCreated: (GoogleMapController controller) {
                               //   if (!homeController.mapCompleter.isCompleted) {
@@ -96,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen>
                               //   }
                               // },
                               myLocationEnabled: true,
+
                               mapType: MapType.normal,
                               compassEnabled: true,
                             ),
