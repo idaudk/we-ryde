@@ -58,7 +58,7 @@ class HomeController extends GetxController {
   late StreamSubscription<Position> streamSubscription;
 
   //String apikey = "AIzaSyD9YM0CFsOLiX4JIQ8AHv6yioAyoPMTOQw";
-  String apikey = "AIzaSyAKo0VW69mMMtrCeJ79AXYjpqGVwr3pM9I";
+  String apikey = "AIzaSyCpc7S2R1JXMYuV6VtdX1-I9jJ4TVUiI2I";
 
   //AIzaSyAKo0VW69mMMtrCeJ79AXYjpqGVwr3pM9I
 

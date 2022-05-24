@@ -1,4 +1,5 @@
 class Utils {
+  static String googleApiKey = 'AIzaSyCpc7S2R1JXMYuV6VtdX1-I9jJ4TVUiI2I';
   static String mapStyles = '''
 [
   {

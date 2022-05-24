@@ -40,16 +40,12 @@ class OfferPool extends GetView<HomeController> {
                   //       ? Align(alignment: Alignment.center, child: Text(""))
                   InkWell(
                     onTap: () {
-                      controller.showPlacePicker(context);
+                      Get.toNamed(Routes.pin_map);
                     },
                     child: TextFormField(
                       enabled: false,
-                      onTap: (() {
-                        Get.snackbar("Hellow World", "just doing some testing");
-                      }),
                       controller: controller.startSearchFieldController,
                       keyboardType: TextInputType.text,
-
                       decoration: const InputDecoration(
                         labelText: "Start Location",
                         icon: Icon(
@@ -62,17 +58,6 @@ class OfferPool extends GetView<HomeController> {
                         errorBorder: UnderlineInputBorder(),
                         focusedErrorBorder: UnderlineInputBorder(),
                       ),
-                      // onChanged: (value) {
-                      //   if (value.isNotEmpty) {
-
-                      //   } else {
-                      //     if (controller.predictions.length > 0 && mounted) {
-                      //       setState(() {
-                      //         predictions = [];
-                      //       });
-                      //     }
-                      //   }
-                      // },
                     ),
                   ),
                   //   ),

@@ -24,6 +24,7 @@ import '../../features/about_us/views/screen/about_us.dart';
 import '../../features/manage_address/bindings/manage_address.dart';
 import '../../features/manage_address/views/screen/manage_address.dart';
 import '../../features/more/bindings/more_binding.dart';
+import '../../features/pin_map/views/screens/pin_map_screen.dart';
 
 part 'app_routes.dart';
 
@@ -93,6 +94,10 @@ abstract class AppPages {
     GetPage(
       name: _Paths.about_us,
       page: () => AboutUsScreen(),
+    ),
+    GetPage(
+      name: _Paths.pin_map,
+      page: () => PinMapScreen(),
     )
   ];
 }

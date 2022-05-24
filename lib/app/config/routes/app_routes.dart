@@ -14,9 +14,7 @@ abstract class Routes {
   static const user_profile = _Paths.user_profile;
   static const faq = _Paths.faq;
   static const about_us = _Paths.about_us;
-
-
-
+  static const pin_map = _Paths.pin_map;
 }
 
 abstract class _Paths {
@@ -33,9 +31,5 @@ abstract class _Paths {
   static const user_profile = '/user_profile/';
   static const faq = '/faq/';
   static const about_us = '/about_us/';
-
-
-
-
-
+  static const pin_map = '/pin_map/';
 }

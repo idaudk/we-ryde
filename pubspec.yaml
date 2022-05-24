@@ -56,6 +56,12 @@ dependencies:
   select_form_field: ^2.2.0
   #map_location_picker: ^0.0.2
   place_picker: ^0.9.19
+  #map_location_picker: ^0.0.2
+  #google_map_location_picker_flutter: ^0.0.109
+  #google_maps_place_picker_mb: ^2.0.0-mb.18
+  #places_service: ^0.1.1
+  #flutter_google_places_hoc081098: ^1.0.1
+  google_places_picker: ^3.0.2
 
   
   
