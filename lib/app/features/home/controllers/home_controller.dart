@@ -12,14 +12,21 @@ import 'package:place_picker/place_picker.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
 import 'package:weryde/app/utils/services/firebase_services.dart';
 
+import '../../../utils/models/selected_location_model.dart';
+
 class HomeController extends GetxController {
   final _auth = FirebaseAuth.instance;
   late Rx<Registrant?> user = Rx(null);
   var isLoading = true.obs;
   var isLocationLocation = true.obs;
 
-  final startSearchFieldController = TextEditingController();
   final endSearchFieldController = TextEditingController();
+
+  //start and drop locations for offer pool tab   ********************************
+  SelectedLocation? offerPoolStartLocation;
+  final offerPoolStartLocationController = TextEditingController();
+  SelectedLocation? _offerPoolDropLocation;
+  final offerPoolDropLocationController = TextEditingController();
 
   late GooglePlace googlePlace;
   late Circle circle = Circle(circleId: CircleId('Home'));
@@ -149,7 +156,7 @@ class HomeController extends GetxController {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
     address.value = '${place.subLocality}, ${place.locality}, ${place.country}';
-    startSearchFieldController.text = address.value;
+    //startSearchFieldController.text = address.value;
     isLocationLocation.value = false;
   }
 

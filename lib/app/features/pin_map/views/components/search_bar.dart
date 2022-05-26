@@ -5,36 +5,58 @@ class _SearchBar extends GetView<PinMapController> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        controller.loadPredictions();
-      },
-      child: Container(
-        alignment: Alignment.center,
-        height: 55.h,
-        width: MediaQuery.of(context).size.width - 40.w,
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.h),
-        decoration: BoxDecoration(
-            color: AppBasicTheme().secondaryColor,
-            borderRadius: BorderRadius.circular(12)),
-        child: TextFormField(
-          enabled: false,
-          onTap: () {},
-          //controller: controller.startSearchFieldController,
-          keyboardType: TextInputType.text,
-          decoration: const InputDecoration(
-            hintText: "Search location",
-            icon: Icon(
-              Iconsax.search_normal_1,
-              color: Color(0xff0FC874),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 7.h),
+            //color: AppBasicTheme().secondaryColor,
+            child: CupertinoTextField(
+              prefix: Icon(Icons.search),
+              //enabled: false,
+              onTap: () {},
+              controller: controller.searchTextField,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.words,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              placeholder: "Search",
+
+              onChanged: (value) {
+                controller.isLoading.value = true;
+                print(value);
+                controller.onChangeHandler(value);
+              },
+              suffix: IconButton(
+                  onPressed: () {
+                    controller.useCurrentLocationButtonHandler();
+                  },
+                  //padding: const EdgeInsets.all(10),
+                  constraints: const BoxConstraints(),
+                  icon: Icon(
+                    Iconsax.gps,
+                    color: AppBasicTheme().primaryColor,
+                  )),
+              decoration: const BoxDecoration(),
             ),
-            filled: false,
-            focusedBorder: UnderlineInputBorder(),
-            enabledBorder: UnderlineInputBorder(),
-            errorBorder: UnderlineInputBorder(),
-            focusedErrorBorder: UnderlineInputBorder(),
           ),
-        ),
+
+          Obx(() {
+            return controller.isLoading.value == true
+                ? const LinearProgressIndicator()
+                : controller.showPredictions.value == true
+                    ? _SearchListView()
+                    : Container();
+          })
+          // Obx(
+          //   () => controller.responses.isEmpty
+          //       ? Container(
+          //           child: Center(
+          //             child: Text('is Empty'),
+          //           ),
+          //         )
+          //       : _SearchListView(),
+          // )
+        ],
       ),
     );
   }

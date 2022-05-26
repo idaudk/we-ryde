@@ -11,7 +11,9 @@ import 'package:tab_container/tab_container.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
 import 'package:weryde/app/constants/map_constant.dart';
 import 'package:weryde/app/features/home/controllers/home_controller.dart';
+import 'package:weryde/app/utils/models/selected_location_model.dart';
 
+import '../../../pin_map/views/screens/pin_map_screen.dart';
 import '../../controllers/home_controller.dart';
 
 part '../components/profile.dart';

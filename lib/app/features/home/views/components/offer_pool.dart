@@ -39,30 +39,39 @@ class OfferPool extends GetView<HomeController> {
                   //   () => controller.isLocationLocation.value
                   //       ? Align(alignment: Alignment.center, child: Text(""))
                   InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.pin_map);
+                    onTap: () async {
+                      //_dataFromMapPin = await Get.toNamed(Routes.pin_map);
+                      controller.offerPoolStartLocation =
+                          await Get.to(PinMapScreen());
+                      controller.offerPoolStartLocationController.text =
+                          controller.offerPoolStartLocation!.completeAddress;
                     },
-                    child: TextFormField(
-                      enabled: false,
-                      controller: controller.startSearchFieldController,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        labelText: "Start Location",
-                        icon: Icon(
-                          Iconsax.gps,
-                          color: Color(0xff0FC874),
-                        ),
-                        filled: false,
-                        focusedBorder: UnderlineInputBorder(),
-                        enabledBorder: UnderlineInputBorder(),
-                        errorBorder: UnderlineInputBorder(),
-                        focusedErrorBorder: UnderlineInputBorder(),
-                      ),
+                    child: GetBuilder<HomeController>(
+                      builder: (_) {
+                        return TextFormField(
+                          enabled: false,
+                          controller:
+                              controller.offerPoolStartLocationController,
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            labelText: "Start Location",
+                            icon: Icon(
+                              Iconsax.gps,
+                              color: Color(0xff0FC874),
+                            ),
+                            filled: false,
+                            focusedBorder: UnderlineInputBorder(),
+                            enabledBorder: UnderlineInputBorder(),
+                            errorBorder: UnderlineInputBorder(),
+                            focusedErrorBorder: UnderlineInputBorder(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   //   ),
                   TextFormField(
-                      controller: controller.endSearchFieldController,
+                      controller: controller.offerPoolDropLocationController,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         labelText: "Drop Location",

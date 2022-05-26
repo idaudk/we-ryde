@@ -23,7 +23,7 @@ class FindPool extends GetView<HomeController> {
                       onTap: (() {
                         Get.snackbar("Hellow World", "just doing some testing");
                       }),
-                      controller: controller.startSearchFieldController,
+                      //controller: controller.startSearchFieldController,
                       keyboardType: TextInputType.text,
 
                       decoration: const InputDecoration(
@@ -38,17 +38,7 @@ class FindPool extends GetView<HomeController> {
                         errorBorder: UnderlineInputBorder(),
                         focusedErrorBorder: UnderlineInputBorder(),
                       ),
-                      // onChanged: (value) {
-                      //   if (value.isNotEmpty) {
-
-                      //   } else {
-                      //     if (controller.predictions.length > 0 && mounted) {
-                      //       setState(() {
-                      //         predictions = [];
-                      //       });
-                      //     }
-                      //   }
-                      // },
+                     
                     ),
                     //  ),
                     TextFormField(

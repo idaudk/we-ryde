@@ -39,7 +39,7 @@ class _DisplayPinAddress extends GetView<PinMapController> {
                             controller.address == null
                                 ? "No Address"
                                 : controller.address.first.name.toString() +
-                                    ", " +
+                                    ",\n" +
                                     controller.address.first.subLocality
                                         .toString() +
                                     ",\n" +
@@ -59,32 +59,37 @@ class _DisplayPinAddress extends GetView<PinMapController> {
                 })
               ],
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: AppBasicTheme().primaryColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              height: double.infinity,
-              width: 100.w,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "GO",
-                    style: TextStyle(
-                        color: Colors.white,
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 15.r),
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Icon(
-                    Iconsax.arrow_right_1,
-                    color: Colors.white,
-                  )
-                ],
+            InkWell(
+              onTap: () {
+                controller.selectLocationButtonHandler();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppBasicTheme().primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                height: double.infinity,
+                width: 100.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "GO",
+                      style: TextStyle(
+                          color: Colors.white,
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 15.r),
+                    ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    Icon(
+                      Iconsax.arrow_right_1,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
               ),
             )
           ],
