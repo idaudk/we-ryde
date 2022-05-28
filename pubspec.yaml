@@ -52,8 +52,6 @@ dependencies:
   image_picker: ^0.8.4+11
   fluttertoast: ^8.0.9
   location: ^4.3.0
-  date_time_picker: 
-  select_form_field: ^2.2.0
   #map_location_picker: ^0.0.2
   place_picker: ^0.9.19
   #map_location_picker: ^0.0.2
@@ -77,6 +75,12 @@ dependencies:
   
   tab_container: ^1.2.2
   contained_tab_bar_view: ^0.8.0
+  modal_bottom_sheet: ^2.0.1
+  group_button: ^5.0.1
+  select_form_field: ^2.2.0
+  date_time_picker: 
+
+
 
 
 

@@ -1,11 +1,12 @@
 part of my_vehciles_screen;
+
 class AddNewVehicles extends GetView<MyVehiclesController> {
   const AddNewVehicles({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SlideAnimation(
-      begin: const Offset(0,500),
+      begin: const Offset(0, 500),
       child: Padding(
         padding: EdgeInsets.all(18.r),
         child: Container(
@@ -13,16 +14,34 @@ class AddNewVehicles extends GetView<MyVehiclesController> {
             color: const Color(0xff0ec874),
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 20.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: ListTile(
-            onTap: (){},
-            leading: const Icon(Icons.add,color: Colors.white,),
-            title: const Text("Add New Vehicle",style: TextStyle(color: Colors.white),),
+            onTap: () {
+              showMaterialModalBottomSheet(
+                isDismissible: false,
+                backgroundColor: AppBasicTheme().secondaryColor,
+                shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20))),
+                enableDrag: false,
+                context: context,
+                builder: (context) => SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    controller: ModalScrollController.of(context),
+                    child: _AddVehicleBottomSheet()),
+              );
+            },
+            leading: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            title: const Text(
+              "Add New Vehicle",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-

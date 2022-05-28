@@ -42,9 +42,15 @@ class OfferPool extends GetView<HomeController> {
                     onTap: () async {
                       //_dataFromMapPin = await Get.toNamed(Routes.pin_map);
                       controller.offerPoolStartLocation =
-                          await Get.to(PinMapScreen());
-                      controller.offerPoolStartLocationController.text =
-                          controller.offerPoolStartLocation!.completeAddress;
+                          await Get.to(() => PinMapScreen());
+                      if (controller.offerPoolStartLocation != null) {
+                        controller.offerPoolStartLocationController.text =
+                            controller.offerPoolStartLocation!.completeAddress;
+                      } else {
+                        controller.offerPoolStartLocationController.text = '';
+                        Get.snackbar('Alert!', 'Location was not selected!',
+                            backgroundColor: Colors.white.withOpacity(0.3));
+                      }
                     },
                     child: GetBuilder<HomeController>(
                       builder: (_) {
@@ -70,21 +76,41 @@ class OfferPool extends GetView<HomeController> {
                     ),
                   ),
                   //   ),
-                  TextFormField(
-                      controller: controller.offerPoolDropLocationController,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        labelText: "Drop Location",
-                        icon: Icon(
-                          Iconsax.location,
-                          color: Colors.red,
-                        ),
-                        filled: false,
-                        focusedBorder: UnderlineInputBorder(),
-                        enabledBorder: UnderlineInputBorder(),
-                        errorBorder: UnderlineInputBorder(),
-                        focusedErrorBorder: UnderlineInputBorder(),
-                      )),
+                  InkWell(
+                    onTap: () async {
+                      controller.offerPoolDropLocation =
+                          await Get.to(() => PinMapScreen());
+                      if (controller.offerPoolStartLocation != null) {
+                        controller.offerPoolDropLocationController.text =
+                            controller.offerPoolDropLocation!.completeAddress;
+                      } else {
+                        controller.offerPoolDropLocationController.text = '';
+                        Get.snackbar('Alert!', 'Location was not selected!',
+                            backgroundColor: Colors.white.withOpacity(0.3));
+                      }
+                    },
+                    child: GetBuilder<HomeController>(
+                      builder: (_) {
+                        return TextFormField(
+                            enabled: false,
+                            controller:
+                                controller.offerPoolDropLocationController,
+                            keyboardType: TextInputType.text,
+                            decoration: const InputDecoration(
+                              labelText: "Drop Location",
+                              icon: Icon(
+                                Iconsax.location,
+                                color: Colors.red,
+                              ),
+                              filled: false,
+                              focusedBorder: UnderlineInputBorder(),
+                              enabledBorder: UnderlineInputBorder(),
+                              errorBorder: UnderlineInputBorder(),
+                              focusedErrorBorder: UnderlineInputBorder(),
+                            ));
+                      },
+                    ),
+                  ),
                   SizedBox(
                     height: 15.h,
                   ),

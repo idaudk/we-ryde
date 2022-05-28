@@ -25,7 +25,7 @@ class HomeController extends GetxController {
   //start and drop locations for offer pool tab   ********************************
   SelectedLocation? offerPoolStartLocation;
   final offerPoolStartLocationController = TextEditingController();
-  SelectedLocation? _offerPoolDropLocation;
+  SelectedLocation? offerPoolDropLocation;
   final offerPoolDropLocationController = TextEditingController();
 
   late GooglePlace googlePlace;

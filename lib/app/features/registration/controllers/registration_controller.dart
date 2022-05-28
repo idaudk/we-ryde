@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
@@ -46,7 +45,8 @@ class RegistrationController extends GetxController {
                 phoneNumber: updatedNumberwithCountryCode,
                 emailAddress: "-",
                 cnic: "-",
-                profileImage: "-"
+                profileImage: "-",
+                vehicleList: [],
                 ),
           );
         }
