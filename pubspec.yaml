@@ -44,6 +44,7 @@ dependencies:
   sms_autofill: ^2.2.0
   google_nav_bar: ^5.0.6
   iconsax:
+  dotted_line: ^3.1.0
   flutter_screenutil: ^5.3.1
   animations: ^2.0.2
   expandable: ^5.0.1
@@ -52,16 +53,13 @@ dependencies:
   image_picker: ^0.8.4+11
   fluttertoast: ^8.0.9
   location: ^4.3.0
-  #map_location_picker: ^0.0.2
   place_picker: ^0.9.19
-  #map_location_picker: ^0.0.2
-  #google_map_location_picker_flutter: ^0.0.109
-  #google_maps_place_picker_mb: ^2.0.0-mb.18
-  #places_service: ^0.1.1
-  #flutter_google_places_hoc081098: ^1.0.1
+
   google_places_picker: ^3.0.2
   mapbox_search: ^3.0.1+2
   dio:
+  jiffy: ^5.0.0
+
 
   
   
@@ -71,6 +69,7 @@ dependencies:
   google_place: ^0.4.7
   geolocator: ^8.2.0
   geocoding:
+  flutter_polyline_points: ^1.0.0
   
   
   tab_container: ^1.2.2
@@ -78,7 +77,7 @@ dependencies:
   modal_bottom_sheet: ^2.0.1
   group_button: ^5.0.1
   select_form_field: ^2.2.0
-  date_time_picker: 
+
 
 
 

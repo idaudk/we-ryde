@@ -83,7 +83,7 @@ class PinMapController extends GetxController {
       isLoading.value = false;
       showPredictions.value = false;
       print(
-          '*********************************  no response ***************************');
+          '********************************* no response ***************************');
     } else {
       showPredictions.value = true;
       isLoading.value = false;
@@ -117,8 +117,11 @@ class PinMapController extends GetxController {
     _selectedLocation = SelectedLocation(
       placeName: placemarks.first.name.toString(),
       completeAddress: location,
-      locationLatitude: cameraPosition!.target.latitude.toString(),
-      locationLongitude: cameraPosition!.target.longitude.toString(),
+      locationLatitude: cameraPosition!.target.latitude,
+      locationLongitude: cameraPosition!.target.longitude,
+      cityName: placemarks.first.locality.toString(),
+      subLocality: placemarks.first.subLocality.toString(),
+      subThoroughfare: placemarks.first.subThoroughfare.toString(),
     );
     //print(_selectedLocation);
     Get.back(result: _selectedLocation);

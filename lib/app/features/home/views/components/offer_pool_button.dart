@@ -7,15 +7,18 @@ class _OfferPoolButton extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          controller.isbuttonLoading.value = true;
+          controller.postNewRide();
+        },
         //controller.isLoading.value ? null : () => controller.register(),
-        child: controller.isLoading.value
-            ? SizedBox(
+        child: controller.isbuttonLoading.value
+            ? const SizedBox(
                 width: 30,
                 height: 30,
                 child: CircularProgressIndicator(),
               )
-            : Text(
+            : const Text(
                 "Offer Pool",
                 style: TextStyle(color: Colors.white),
               ),

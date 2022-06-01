@@ -8,17 +8,9 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../../utils/animations/animations.dart';
 
-
 part '../components/banner.dart';
 part '../components/appbar.dart';
 part '../components/faq.dart';
-
-
-
-
-
-
-
 
 class FaqScreen extends StatelessWidget {
   const FaqScreen({Key? key}) : super(key: key);
@@ -39,23 +31,23 @@ class FaqScreen extends StatelessWidget {
                   height: 40.h,
                 ),
                 _AppBar(),
-                 SizedBox(
+                SizedBox(
                   height: 50.h,
                 ),
                 const _Banner(),
                 SizedBox(
                   height: 25.h,
                 ),
-
                 Expanded(
                   child: SlideAnimation(
-                    begin: const Offset(0, 300),
+                    begin: const Offset(0, 400),
                     child: Container(
                         width: MediaQuery.of(context).size.width,
                         //sconstraints: BoxConstraints.expand(),
                         height: MediaQuery.of(context).size.height - 230.h,
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 10.0.w,),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.0.w,
+                        ),
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -64,11 +56,10 @@ class FaqScreen extends StatelessWidget {
                         //width: MediaQuery.of(context).size.width,
                         //height: MediaQuery.of(context).size.height,
                         child: ListView(
-                          children:[
+                          children: [
                             ExpansionItems(),
-                            ],
-                        )
-                    ),
+                          ],
+                        )),
                   ),
                 )
               ],

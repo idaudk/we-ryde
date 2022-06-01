@@ -1,6 +1,5 @@
 library about_us_screen;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,13 +12,6 @@ part '../components/banner.dart';
 part '../components/daud.dart';
 part '../components/saeed.dart';
 part '../components/about_style.dart';
-
-
-
-
-
-
-
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
@@ -46,7 +38,6 @@ class AboutUsScreen extends StatelessWidget {
                 const _Banner(),
                 CallToAction(),
                 Expanded(
-
                   child: SlideAnimation(
                     begin: const Offset(0, 300),
                     child: Container(
@@ -68,32 +59,35 @@ class AboutUsScreen extends StatelessWidget {
                           children: [
                             Container(
                               margin: EdgeInsets.only(bottom: 20.h),
-                              child:Column(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Our Story",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.sp),),
+                                  Text(
+                                    "Our Story",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.sp),
+                                  ),
                                   SizedBox(height: 10.h),
-                                  Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "),
+                                  const Text(
+                                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "),
                                 ],
                               ),
                             ),
-                            Text("Team",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.sp),),
+                            Text(
+                              "Team",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.sp),
+                            ),
                             SizedBox(height: 10.h),
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 30),
+                            SlideAnimation(
+                              begin: const Offset(-400, 0),
                               child: Row(
-
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      children:  [
-                                        SlideAnimation(
-                                          begin: Offset(0, 300),
-                                          child: Daud(),
-                                        )
-                                      ],
+                                      children: [Daud()],
                                     ),
                                   ),
                                   Expanded(

@@ -45,29 +45,32 @@ class PinMapScreen extends GetView<PinMapController> {
                   GetBuilder<PinMapController>(
                     //init: PinMapController(),
                     builder: (_) {
-                      return GoogleMap(
-                        compassEnabled: true,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: false,
-                        zoomControlsEnabled: false,
-                        cameraTargetBounds: CameraTargetBounds.unbounded,
-                        // padding: EdgeInsets.symmetric(
-                        //     horizontal: 18.w, vertical: 160.h),
-                        initialCameraPosition: CameraPosition(
-                            target: _pinMapController.locationLatLng,
-                            zoom: 14.5),
-                        onMapCreated: (controller) {
-                          controller.setMapStyle(Utils.mapStyles);
-                          _pinMapController.mapController = controller;
-                        },
-                        onCameraMove: (CameraPosition cameraPostiona) {
-                          _pinMapController.pinMoving.value = true;
-                          _pinMapController.cameraPosition = cameraPostiona;
-                          //_pinMapController.searchTextField.text = '';
-                        },
-                        onCameraIdle: () {
-                          controller.loadAddress();
-                        },
+                      return Container(
+                        height: 640.h,
+                        child: GoogleMap(
+                          compassEnabled: true,
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: false,
+                          zoomControlsEnabled: false,
+                          cameraTargetBounds: CameraTargetBounds.unbounded,
+                          // padding: EdgeInsets.symmetric(
+                          //     horizontal: 18.w, vertical: 160.h),
+                          initialCameraPosition: CameraPosition(
+                              target: _pinMapController.locationLatLng,
+                              zoom: 14.5),
+                          onMapCreated: (controller) {
+                            controller.setMapStyle(Utils.mapStyles);
+                            _pinMapController.mapController = controller;
+                          },
+                          onCameraMove: (CameraPosition cameraPostiona) {
+                            _pinMapController.pinMoving.value = true;
+                            _pinMapController.cameraPosition = cameraPostiona;
+                            //_pinMapController.searchTextField.text = '';
+                          },
+                          onCameraIdle: () {
+                            controller.loadAddress();
+                          },
+                        ),
                       );
                     },
                   ),
@@ -76,12 +79,14 @@ class PinMapScreen extends GetView<PinMapController> {
                   //   child:
                   // ),
                   Center(
-                    child: Image.network(
-                      "https://www.outsystems.com/Forge_BL/rest/ComponentThumbnail/GetURL_ComponentThumbnail?ProjectImageId=33187",
-                      height: 30,
-                      width: 30,
+                      child: Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: Image.asset(
+                      'assets/images/raster/origin_pin.png',
+                      height: 40,
+                      width: 40,
                     ),
-                  ),
+                  )),
                   _DisplayPinAddress(),
                 ],
               ),

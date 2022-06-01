@@ -5,10 +5,10 @@ class OfferPool extends GetView<HomeController> {
 
   final List<Map<String, dynamic>> _items = [
     {
-      'value': 'Carolla',
-      'label': 'Toyota Carolla Xli',
-      'icon': Icon(Iconsax.car),
-      'textStyle': TextStyle(color: Colors.green),
+      'value': 'Loading....',
+      'label': 'Loading....',
+      // 'icon': Icon(Iconsax.car),
+      // 'textStyle': TextStyle(color: Colors.green),
     },
     {
       'value': 'Mazda',
@@ -35,17 +35,16 @@ class OfferPool extends GetView<HomeController> {
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 children: [
-                  // Obx(
-                  //   () => controller.isLocationLocation.value
-                  //       ? Align(alignment: Alignment.center, child: Text(""))
                   InkWell(
                     onTap: () async {
-                      //_dataFromMapPin = await Get.toNamed(Routes.pin_map);
                       controller.offerPoolStartLocation =
                           await Get.to(() => PinMapScreen());
                       if (controller.offerPoolStartLocation != null) {
                         controller.offerPoolStartLocationController.text =
                             controller.offerPoolStartLocation!.completeAddress;
+
+                        //print('start position handler called');
+                        controller.startLocationMapHandler();
                       } else {
                         controller.offerPoolStartLocationController.text = '';
                         Get.snackbar('Alert!', 'Location was not selected!',
@@ -78,15 +77,23 @@ class OfferPool extends GetView<HomeController> {
                   //   ),
                   InkWell(
                     onTap: () async {
-                      controller.offerPoolDropLocation =
-                          await Get.to(() => PinMapScreen());
-                      if (controller.offerPoolStartLocation != null) {
-                        controller.offerPoolDropLocationController.text =
-                            controller.offerPoolDropLocation!.completeAddress;
+                      if (controller.offerPoolStartLocation == null) {
+                        Get.snackbar('Select Origin Location first!',
+                            'Origin location must be select in order to select destination location.');
                       } else {
-                        controller.offerPoolDropLocationController.text = '';
-                        Get.snackbar('Alert!', 'Location was not selected!',
-                            backgroundColor: Colors.white.withOpacity(0.3));
+                        controller.offerPoolDropLocation =
+                            await Get.to(() => PinMapScreen());
+                        if (controller.offerPoolDropLocation != null) {
+                          controller.offerPoolDropLocationController.text =
+                              controller.offerPoolDropLocation!.completeAddress;
+
+                          //print('start position handler called');
+                          controller.dropLocationMapHandler();
+                        } else {
+                          controller.offerPoolDropLocationController.text = '';
+                          Get.snackbar('Alert!', 'Location was not selected!',
+                              backgroundColor: Colors.white.withOpacity(0.3));
+                        }
                       }
                     },
                     child: GetBuilder<HomeController>(
@@ -114,41 +121,114 @@ class OfferPool extends GetView<HomeController> {
                   SizedBox(
                     height: 15.h,
                   ),
-                  DateTimePicker(
-                    type: DateTimePickerType.dateTimeSeparate,
-                    dateMask: 'd MMM, yyyy',
-                    initialValue: DateTime.now().toString(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    icon: Icon(Icons.event),
-                    dateLabelText: 'Date',
-                    timeLabelText: "Hour",
-                    selectableDayPredicate: (date) {
-                      // Disable weekend days to select from the calendar
-                      if (date.weekday == 6 || date.weekday == 7) {
-                        return false;
-                      }
-                      return true;
-                    },
-                    onChanged: (val) => print(val),
-                    validator: (val) {
-                      print(val);
-                      return null;
-                    },
-                    onSaved: (val) => print(val),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: InkWell(
+                          onTap: () async {
+                            controller.startDate = (await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(Duration(days: 15)),
+                            ));
+                            if (controller.startDate != null) {
+                              controller.offerPoolDateController.text =
+                                  Jiffy(controller.startDate).yMMMMd;
+                            }
+                          },
+                          child: AbsorbPointer(
+                            child: TextFormField(
+                              maxLines: null,
+                              controller: controller.offerPoolDateController,
+                              decoration: const InputDecoration(
+                                  labelText: "Date",
+                                  icon: Icon(Iconsax.calendar)),
+                              textCapitalization: TextCapitalization.words,
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter the date of your departure';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: InkWell(
+                          onTap: () async {
+                            try {
+                              controller.startTime = (await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              ))!;
+                              if (controller.startTime != null) {
+                                controller.offerPoolTimeController.text =
+                                    controller.startTime!.format(context);
+                              }
+                            } catch (ex) {
+                              print(ex);
+                            }
+                          },
+                          child: AbsorbPointer(
+                            child: TextFormField(
+                              maxLines: null,
+                              controller: controller.offerPoolTimeController,
+                              decoration: const InputDecoration(
+                                  labelText: "Time", icon: Icon(Iconsax.clock)),
+                              textCapitalization: TextCapitalization.words,
+                              keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter the time of your departure';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
-                  SelectFormField(
-                    type: SelectFormFieldType.dropdown, // or can be dialog
-                    //initialValue: '',
-                    icon: Icon(Iconsax.car4),
-                    labelText: 'Select Vehicle',
-                    items: _items,
-                    onChanged: (val) => print(val),
-                    onSaved: (val) => print(val),
+                  GetBuilder<HomeController>(
+                    builder: (_) {
+                      return SelectFormField(
+                        type: SelectFormFieldType.dropdown, // or can be dialog
+                        //initialValue: '',
+                        controller: controller.selectVehicleController,
+                        icon: const Icon(Iconsax.car4),
+                        labelText: 'Select Vehicle',
+                        items: controller.selectVehicleValues,
+                        onChanged: (val) {
+                          controller.selectedVehicleSetter(val);
+                        },
+                        onSaved: (val) => print(val),
+                      );
+                    },
                   ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  TextFormField(
+                      enabled: true,
+                      controller: controller.offerPoolMessageController,
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                        labelText: "Message",
+                        icon: Icon(
+                          Iconsax.note_1,
+                        ),
+                      )),
                   SizedBox(
                     height: 15.h,
                   ),
