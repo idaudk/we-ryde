@@ -15,6 +15,7 @@ import 'package:weryde/app/features/my_vehicles/bindings/my_vehicles_binding.dar
 import 'package:weryde/app/features/my_vehicles/views/screens/my_vehicle_screen.dart';
 import 'package:weryde/app/features/registration/bindings/registration_binding.dart';
 import 'package:weryde/app/features/registration/views/screens/registration_screen.dart';
+import 'package:weryde/app/features/search_pool/views/screens/search_pool.dart';
 import 'package:weryde/app/features/splash/views/screens/splash_screen.dart';
 import 'package:weryde/app/features/user_profile/bindings/user_profile_binding.dart';
 import 'package:weryde/app/features/user_profile/views/screen/user_profile.dart';
@@ -98,6 +99,10 @@ abstract class AppPages {
     GetPage(
       name: _Paths.pin_map,
       page: () => PinMapScreen(),
+    ),
+    GetPage(
+      name: _Paths.search_pool,
+      page: () => SearchPool(),
     )
   ];
 }

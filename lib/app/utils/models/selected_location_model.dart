@@ -6,6 +6,7 @@ class SelectedLocation {
   final String subThoroughfare;
   final String cityName;
   final String subLocality;
+  final String? postalCode;
 
   SelectedLocation(
       {required this.placeName,
@@ -14,7 +15,8 @@ class SelectedLocation {
       required this.locationLongitude,
       required this.subThoroughfare,
       required this.cityName,
-      required this.subLocality});
+      required this.subLocality,
+      this.postalCode});
 
   // factory SelectedLocation.fromDocument(DocumentSnapshot document) {
   //   return User(

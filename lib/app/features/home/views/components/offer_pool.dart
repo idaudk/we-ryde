@@ -200,21 +200,42 @@ class OfferPool extends GetView<HomeController> {
                   SizedBox(
                     height: 15.h,
                   ),
-                  GetBuilder<HomeController>(
-                    builder: (_) {
-                      return SelectFormField(
-                        type: SelectFormFieldType.dropdown, // or can be dialog
-                        //initialValue: '',
-                        controller: controller.selectVehicleController,
-                        icon: const Icon(Iconsax.car4),
-                        labelText: 'Select Vehicle',
-                        items: controller.selectVehicleValues,
-                        onChanged: (val) {
-                          controller.selectedVehicleSetter(val);
-                        },
-                        onSaved: (val) => print(val),
-                      );
-                    },
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: GetBuilder<HomeController>(
+                          builder: (_) {
+                            return SelectFormField(
+                              type: SelectFormFieldType
+                                  .dropdown, // or can be dialog
+                              icon: const Icon(Iconsax.car4),
+                              enableSearch: true,
+                              controller: controller.selectVehicleController,
+
+                              labelText: 'Select Vehicle',
+                              items: controller.selectVehicleValues,
+                              onChanged: (val) {
+                                controller.selectedVehicleSetter(val);
+                              },
+                              onSaved: (val) => print(val),
+                            );
+                          },
+                        ),
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: InkWell(
+                              onTap: () {
+                                controller.selectVehicleValues.clear();
+                                controller.vehicleDataFetcher();
+                                Get.snackbar(
+                                  'Refreshing',
+                                  'Make sure you have added vehicle in vehicle section.',
+                                );
+                              },
+                              child: Icon(Iconsax.refresh)))
+                    ],
                   ),
                   SizedBox(
                     height: 15.h,

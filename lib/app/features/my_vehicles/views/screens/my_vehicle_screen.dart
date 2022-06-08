@@ -21,7 +21,6 @@ part '../components/save_button.dart';
 
 class MyVehiclesScreen extends GetView<MyVehiclesController> {
   MyVehiclesScreen({Key? key}) : super(key: key);
-  MyVehiclesController _myVehiclesController = Get.put(MyVehiclesController());
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override

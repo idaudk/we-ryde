@@ -122,6 +122,7 @@ class PinMapController extends GetxController {
       cityName: placemarks.first.locality.toString(),
       subLocality: placemarks.first.subLocality.toString(),
       subThoroughfare: placemarks.first.subThoroughfare.toString(),
+      postalCode: placemarks.first.postalCode
     );
     //print(_selectedLocation);
     Get.back(result: _selectedLocation);

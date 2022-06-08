@@ -1,6 +1,8 @@
 library home_view;
 
 
+import 'dart:math' as math;
+import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -32,7 +34,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+  //final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   HomeController homeController = Get.put(HomeController());
 
   // void initState() {
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: [
                         Container(
                             margin: EdgeInsets.only(bottom: 230.h),
-                            //padding: EdgeInsets.only(top: 10.h),
+                            
                             child: GetBuilder(
                               init: HomeController(),
                               builder: (value) => GoogleMap(
@@ -108,26 +110,7 @@ class _HomeScreenState extends State<HomeScreen>
                             )),
 
                         ContainerNav()
-                        // Container(
-                        //   height: 100.h,
-                        //   width: MediaQuery.of(context).size.width,
-                        //   child: SingleChildScrollView(
-                        //     child: Column(children: [
-                        //       TabBar(
-                        //         tabs: [
-                        //           Tab(icon: Icon(Icons.flight)),
-                        //           Tab(icon: Icon(Icons.directions_transit)),
-                        //         ],
-                        //       ),
-                        //       TabBarView(
-                        //         children: [
-                        //           Icon(Icons.flight, size: 350),
-                        //           Icon(Icons.directions_transit, size: 350),
-                        //         ],
-                        //       ),
-                        //     ]),
-                        //   ),
-                        // ),
+                       
                       ],
                     ),
                   ),

@@ -13,6 +13,7 @@ import 'package:weryde/app/utils/models/vehicle_model.dart';
 import 'package:weryde/app/utils/services/firebase_services.dart';
 
 import '../../../utils/models/selected_location_model.dart';
+import '../../search_pool/views/screens/search_pool.dart';
 
 class HomeController extends GetxController {
   final _auth = FirebaseAuth.instance;
@@ -22,9 +23,19 @@ class HomeController extends GetxController {
   var isLoading = true.obs;
   var isbuttonLoading = false.obs;
 
-  final endSearchFieldController = TextEditingController();
+  //variables for find pool tab   ********************************
+  SelectedLocation? findPoolStartLocation;
+  final findPoolStartLocationController = TextEditingController();
+  SelectedLocation? findPoolDropLocation;
+  final findPoolDropLocationController = TextEditingController();
+  late TimeOfDay? findPoolStartTime;
+  late DateTime? findPoolStartDate;
+  final findPoolDateController = TextEditingController();
+  final findPoolTimeController = TextEditingController();
+  var isSearchButtonLoading = false.obs;
+  final GlobalKey<FormState> findPoolformKey = GlobalKey<FormState>();
 
-  //start and drop locations for offer pool tab   ********************************
+  //variables for offer pool tab   ********************************
   SelectedLocation? offerPoolStartLocation;
   final offerPoolStartLocationController = TextEditingController();
   SelectedLocation? offerPoolDropLocation;
@@ -37,7 +48,7 @@ class HomeController extends GetxController {
   late TimeOfDay? startTime;
   late DateTime? startDate;
 
-  // vehilce model for getting vehicles info of user
+  // vehilce model for getting vehicles info of user (offer pool screen )
   final List<VehicleModel> _vehicleModelList = [];
   VehicleModel? _selectedVehicleDataModel; //String? selectedVehicleId;
 
@@ -97,6 +108,10 @@ class HomeController extends GetxController {
   }
 
   void startLocationMapHandler() {
+    findPoolStartLocationController.clear();
+    findPoolDropLocationController.clear();
+    markers.clear();
+    polylines.clear();
     LatLng selectedPosition = LatLng(offerPoolStartLocation!.locationLatitude,
         offerPoolStartLocation!.locationLongitude);
     markers.add(Marker(
@@ -116,6 +131,31 @@ class HomeController extends GetxController {
     }
   }
 
+  // function for find pool tab
+  void findPoolStartLocationMapHandler() {
+    offerPoolDropLocationController.clear();
+    offerPoolStartLocationController.clear();
+    markers.clear();
+    polylines.clear();
+    LatLng selectedPosition = LatLng(findPoolStartLocation!.locationLatitude,
+        findPoolStartLocation!.locationLongitude);
+    markers.add(Marker(
+        markerId: const MarkerId('origin'),
+        infoWindow: const InfoWindow(title: 'Origin'),
+        //icon: originPin,
+        icon: originPin,
+        //icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        position: selectedPosition));
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(findPoolStartLocation!.locationLatitude,
+            findPoolStartLocation!.locationLongitude),
+        zoom: 16)));
+    update();
+    if (polylineCoordinates.isNotEmpty) {
+      setPolylines();
+    }
+  }
+
   void dropLocationMapHandler() {
     LatLng selectedPosition = LatLng(offerPoolDropLocation!.locationLatitude,
         offerPoolDropLocation!.locationLongitude);
@@ -125,6 +165,18 @@ class HomeController extends GetxController {
         icon: destinattionPin,
         position: selectedPosition));
     maplocationUpdater(selectedPosition);
+  }
+
+  // function for find pool tab
+  void findPoolDropLocationMapHandler() {
+    LatLng selectedPosition = LatLng(findPoolDropLocation!.locationLatitude,
+        findPoolDropLocation!.locationLongitude);
+    markers.add(Marker(
+        markerId: const MarkerId('Destination'),
+        infoWindow: const InfoWindow(title: 'Destination'),
+        icon: destinattionPin,
+        position: selectedPosition));
+    findPoolMaplocationUpdater(selectedPosition);
   }
 
   void maplocationUpdater(selectedPosition) {
@@ -153,6 +205,33 @@ class HomeController extends GetxController {
     setPolylines();
   }
 
+  // function for find pool tab
+  void findPoolMaplocationUpdater(selectedPosition) {
+    LatLngBounds bound;
+    final LatLng offerLatLng = selectedPosition;
+    var currentLatLng = LatLng(findPoolStartLocation!.locationLatitude,
+        findPoolStartLocation!.locationLongitude);
+    if (offerLatLng.latitude > currentLatLng.latitude &&
+        offerLatLng.longitude > currentLatLng.longitude) {
+      bound = LatLngBounds(southwest: currentLatLng, northeast: offerLatLng);
+    } else if (offerLatLng.longitude > currentLatLng.longitude) {
+      bound = LatLngBounds(
+          southwest: LatLng(offerLatLng.latitude, currentLatLng.longitude),
+          northeast: LatLng(currentLatLng.latitude, offerLatLng.longitude));
+    } else if (offerLatLng.latitude > currentLatLng.latitude) {
+      bound = LatLngBounds(
+          southwest: LatLng(currentLatLng.latitude, offerLatLng.longitude),
+          northeast: LatLng(offerLatLng.latitude, currentLatLng.longitude));
+    } else {
+      bound = LatLngBounds(southwest: offerLatLng, northeast: currentLatLng);
+    }
+
+    mapController.animateCamera(CameraUpdate.newLatLngBounds(bound, 60));
+
+    update();
+    findPoolsetPolylines();
+  }
+
   setPolylines() async {
     polylines.clear();
     polylineCoordinates.clear();
@@ -161,8 +240,8 @@ class HomeController extends GetxController {
       'AIzaSyDEiArRJg8QdgATPevCeNjwRqDl4L3-4Ak',
       PointLatLng(offerPoolStartLocation!.locationLatitude,
           offerPoolStartLocation!.locationLongitude),
-      PointLatLng(offerPoolDropLocation!.locationLatitude,
-          offerPoolDropLocation!.locationLongitude),
+      PointLatLng(offerPoolDropLocation?.locationLatitude ?? 0,
+          offerPoolDropLocation?.locationLongitude ?? 0),
       // polyline middle away edition
 
       // wayPoints: [PolylineWayPoint(location: "33.6844,73.0479")]
@@ -181,6 +260,45 @@ class HomeController extends GetxController {
     // with an id, an RGB color and the list of LatLng pairs
     Polyline polyline = Polyline(
         polylineId: PolylineId("route"),
+        color: Color(0xFF0ec874),
+        jointType: JointType.round,
+        width: 3,
+        geodesic: true,
+        //patterns: <PatternItem>[PatternItem.dash(25), PatternItem.gap(15)],
+        points: polylineCoordinates);
+
+    // add the constructed polyline as a set of points
+    // to the polyline set, which will eventually
+    // end up showing up on the map
+    polylines.add(polyline);
+    print(polylines.first.points);
+    update();
+  }
+
+  // function for find pool section
+  findPoolsetPolylines() async {
+    polylines.clear();
+    polylineCoordinates.clear();
+    PolylineResult polyResult = await polylinePoints.getRouteBetweenCoordinates(
+      //'AIzaSyCpc7S2R1JXMYuV6VtdX1-I9jJ4TVUiI2I',
+      'AIzaSyDEiArRJg8QdgATPevCeNjwRqDl4L3-4Ak',
+      PointLatLng(findPoolStartLocation!.locationLatitude,
+          findPoolStartLocation!.locationLongitude),
+      PointLatLng(findPoolDropLocation!.locationLatitude,
+          findPoolDropLocation!.locationLongitude),
+    );
+    if (polyResult.points.isNotEmpty) {
+      // loop through all PointLatLng points and convert them
+      // to a list of LatLng, required by the Polyline
+      polyResult.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+      print('polyresult not empty');
+    }
+    // create a Polyline instance
+    // with an id, an RGB color and the list of LatLng pairs
+    Polyline polyline = Polyline(
+        polylineId: PolylineId("search route"),
         color: Color(0xFF0ec874),
         jointType: JointType.round,
         width: 3,
@@ -236,13 +354,23 @@ class HomeController extends GetxController {
     document.get().then((document) {
       var userDocument = document.data();
       var vehicleData = List.from(userDocument!['vehicleList']);
-      vehicleData.forEach((element) {
-        //print(element['vehicleName']);
+      //print('***************************' + vehicleData.toString());
+      if (vehicleData.isEmpty) {
+        print('User have no Vehicles ');
         selectVehicleValues.add({
-          'value': element['vehicleRegNo'],
-          'label': element['vehicleName'],
+          'value': 'no Vehicles',
+          'label': 'No vehicles to show!',
+          'enable': false
         });
-      });
+      } else {
+        vehicleData.forEach((element) {
+          //print(element['vehicleName']);
+          selectVehicleValues.add({
+            'value': element['vehicleRegNo'],
+            'label': element['vehicleName'],
+          });
+        });
+      }
       // setting all vehicles data in model list
       vehicleData.forEach((element) {
         _vehicleModelList.add(VehicleModel(
@@ -288,7 +416,7 @@ class HomeController extends GetxController {
       "driverID": _auth.currentUser!.uid,
       "startAddress": offerPoolStartLocation!.completeAddress,
       "startSubLocality": offerPoolStartLocation!.subLocality,
-      'startSubThoroughfare': offerPoolStartLocation!.subThoroughfare,
+      "startSubThoroughfare": offerPoolStartLocation!.subThoroughfare,
       "startCity": offerPoolStartLocation!.cityName,
       "startPoint": GeoPoint(offerPoolStartLocation!.locationLatitude,
           offerPoolStartLocation!.locationLongitude),
@@ -318,6 +446,7 @@ class HomeController extends GetxController {
       "message": offerPoolMessageController.text,
       //"isSaved": isSavedTemplate,
       "postedAt": DateTime.now().microsecondsSinceEpoch,
+      "timestamp": FieldValue.serverTimestamp(),
       "confirmedSeats": 0,
       "totalSeats": _selectedVehicleDataModel!.vehicleSeats,
     }).then((value) {
@@ -348,6 +477,39 @@ class HomeController extends GetxController {
       isbuttonLoading.value = false;
       Get.snackbar("Failed to Post Ride", "Please Try again!");
     });
+  }
+
+  void findPoolSearchButtonHandler() {
+    // if (findPoolformKey.currentState!.validate()) {
+    //   print('Form Validated');
+    // }
+    if (findPoolStartLocationController.text == '' ||
+        findPoolDropLocationController.text == '') {
+      Get.snackbar('Error', 'Start and Drop Locations are Required',
+          snackPosition: SnackPosition.BOTTOM,
+          borderRadius: 0,
+          backgroundColor: Colors.black,
+          colorText: Colors.white,
+          shouldIconPulse: true,
+          icon: const Icon(
+            Icons.error_outline_rounded,
+            color: Colors.red,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+          margin: EdgeInsets.all(0));
+      print('values are empty');
+    } else {
+      Get.to(() => SearchPool(
+            startPoint: LatLng(findPoolStartLocation!.locationLatitude,
+                findPoolStartLocation!.locationLongitude),
+                startSubLocality: findPoolStartLocation!.subLocality,
+            endSubLocality: findPoolDropLocation!.subLocality,
+            startCity: findPoolStartLocation!.cityName,
+            endCity: findPoolDropLocation!.cityName,
+            startPostalCode: findPoolStartLocation!.postalCode,
+            endPostalCode: findPoolDropLocation!.postalCode,
+          ));
+    }
   }
 
   // offerPoolButtonHandler() async {

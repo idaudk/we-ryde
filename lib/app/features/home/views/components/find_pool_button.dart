@@ -7,15 +7,17 @@ class _FindPoolButton extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          controller.findPoolSearchButtonHandler();
+        },
         //controller.isLoading.value ? null : () => controller.register(),
-        child: controller.isLoading.value
-            ? SizedBox(
+        child: controller.isSearchButtonLoading.value
+            ? const SizedBox(
                 width: 30,
                 height: 30,
                 child: CircularProgressIndicator(),
               )
-            : Text(
+            : const Text(
                 "Find Pool",
                 style: TextStyle(color: Colors.white),
               ),

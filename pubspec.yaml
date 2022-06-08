@@ -47,7 +47,7 @@ dependencies:
   dotted_line: ^3.1.0
   flutter_screenutil: ^5.3.1
   animations: ^2.0.2
-  expandable: ^5.0.1
+
   font_awesome_flutter: ^10.1.0
   url_launcher:
   image_picker: ^0.8.4+11
@@ -77,6 +77,9 @@ dependencies:
   modal_bottom_sheet: ^2.0.1
   group_button: ^5.0.1
   select_form_field: ^2.2.0
+  expansion_widget: ^0.0.3
+  #fade_shimmer: ^2.0.1
+  shimmer: ^2.0.0
 
 
 
