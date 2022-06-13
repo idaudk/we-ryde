@@ -502,12 +502,20 @@ class HomeController extends GetxController {
       Get.to(() => SearchPool(
             startPoint: LatLng(findPoolStartLocation!.locationLatitude,
                 findPoolStartLocation!.locationLongitude),
-                startSubLocality: findPoolStartLocation!.subLocality,
+            endPoint: LatLng(findPoolDropLocation!.locationLatitude,
+                findPoolDropLocation!.locationLongitude),    
+            
+            startSubLocality: findPoolStartLocation!.subLocality,
             endSubLocality: findPoolDropLocation!.subLocality,
+            
             startCity: findPoolStartLocation!.cityName,
             endCity: findPoolDropLocation!.cityName,
+            
             startPostalCode: findPoolStartLocation!.postalCode,
             endPostalCode: findPoolDropLocation!.postalCode,
+
+            startAddress: findPoolStartLocation!.completeAddress,
+            endAddress: findPoolDropLocation!.completeAddress,
           ));
     }
   }

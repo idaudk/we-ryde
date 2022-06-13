@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:weryde/app/features/search_pool/views/screens/search_pool_details.dart';
 
@@ -14,7 +14,21 @@ import '../../../../utils/models/user_model.dart';
 
 class RideItem extends StatefulWidget {
   final RideModel ride;
-  const RideItem({Key? key, required this.ride}) : super(key: key);
+
+  final LatLng selectedUserStartPoint;
+  final LatLng selectedUserEndPoint;
+
+  final String selectedStartAddress;
+  final String selectedEndAddress;
+
+  const RideItem(
+      {Key? key,
+      required this.ride,
+      required this.selectedUserEndPoint,
+      required this.selectedUserStartPoint,
+      required this.selectedStartAddress,
+      required this.selectedEndAddress})
+      : super(key: key);
 
   @override
   State<RideItem> createState() => _RideItemState();
@@ -70,7 +84,10 @@ class _RideItemState extends State<RideItem> {
                 Get.to(() => SearchPoolDetailsScreen(
                       rideData: widget.ride,
                       driverData: driver!,
-                      
+                      selectedStartAddress: widget.selectedStartAddress,
+                      selectedEndAddress: widget.selectedEndAddress,
+                      selectedUserEndPoint: widget.selectedUserEndPoint,
+                      selectedUserStartPoint: widget.selectedUserStartPoint,
                     ));
               },
               child: Container(

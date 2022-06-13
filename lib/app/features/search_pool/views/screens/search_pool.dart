@@ -110,7 +110,11 @@ class SearchPool extends StatelessWidget {
                                     direction: Axis.vertical,
                                     children: snapshot.data!.docs.map((e) {
                                       return RideItem(
-                                          ride: RideModel.fromDocumentSnapshot(
+                                        selectedStartAddress: startAddress!,
+                                        selectedEndAddress: endAddress!,
+                                        selectedUserStartPoint: startPoint!,
+                                        selectedUserEndPoint: endPoint!,
+                                        ride: RideModel.fromDocumentSnapshot(
                                               snapshot: e));
                                     }).toList());
                               } else {

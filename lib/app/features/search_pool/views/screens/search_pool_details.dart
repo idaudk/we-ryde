@@ -8,20 +8,47 @@ import 'package:jiffy/jiffy.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:weryde/app/config/themes/app_basic_theme.dart';
 import 'package:weryde/app/features/search_pool/controllers/search_pool_controller.dart';
+import 'package:weryde/app/features/search_pool/views/screens/join_pool_confirm.dart';
 import 'package:weryde/app/utils/models/ride_model.dart';
 import 'package:weryde/app/utils/models/user_model.dart';
 
 import '../../../../constants/map_constant.dart';
 
-class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
+class SearchPoolDetailsScreen extends StatefulWidget {
   final RideModel rideData;
   final UserModel driverData;
 
-  SearchPoolDetailsScreen({
-    Key? key,
-    required this.rideData,
-    required this.driverData,
-  }) : super(key: key);
+  final LatLng selectedUserStartPoint;
+  final LatLng selectedUserEndPoint;
+
+  final String selectedStartAddress;
+  final String selectedEndAddress;
+
+  SearchPoolDetailsScreen(
+      {Key? key,
+      required this.rideData,
+      required this.driverData,
+      required this.selectedUserEndPoint,
+      required this.selectedUserStartPoint,
+      required this.selectedStartAddress,
+      required this.selectedEndAddress
+      })
+      : super(key: key);
+
+  @override
+  State<SearchPoolDetailsScreen> createState() =>
+      _SearchPoolDetailsScreenState();
+}
+
+class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
+  SearchPoolController searchPoolController = Get.put(SearchPoolController());
+
+  @override
+  void initState() {
+    searchPoolController.valueSetter(
+        passedDriverData: widget.driverData, passedRideData: widget.rideData);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +84,16 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                             myLocationButtonEnabled: true,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 24, vertical: 40),
-                            markers: controller.markers,
-                            polylines: controller.polylines,
-                            initialCameraPosition: controller.initialLocation,
                             onMapCreated:
                                 (GoogleMapController functioncontroller) {
-                              controller.mapController = functioncontroller;
+                              searchPoolController.mapController =
+                                  functioncontroller;
                               functioncontroller.setMapStyle(Utils.mapStyles);
                             },
+                            markers: searchPoolController.markers,
+                            polylines: searchPoolController.polylines,
+                            initialCameraPosition:
+                                searchPoolController.initialLocation,
                             myLocationEnabled: true,
                             mapType: MapType.normal,
                             compassEnabled: true,
@@ -88,9 +117,11 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                                     children: [
                                       Text(
                                         'Ride starts on ' +
-                                            Jiffy(rideData.startDate).MMMd +
+                                            Jiffy(widget.rideData.startDate)
+                                                .MMMd +
                                             ', ' +
-                                            rideData.time.format(context),
+                                            widget.rideData.time
+                                                .format(context),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16.r),
@@ -162,7 +193,8 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    rideData.startSubLocality,
+                                                    widget.rideData
+                                                        .startSubLocality,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
@@ -171,7 +203,8 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                                                         fontSize: 16.r),
                                                   ),
                                                   Text(
-                                                    rideData.startAddress,
+                                                    widget
+                                                        .rideData.startAddress,
                                                     overflow: TextOverflow.fade,
                                                     style: TextStyle(
                                                         fontWeight:
@@ -190,7 +223,8 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    rideData.endSubLocality,
+                                                    widget.rideData
+                                                        .endSubLocality,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
@@ -199,7 +233,7 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                                                         fontSize: 16.r),
                                                   ),
                                                   Text(
-                                                    rideData.endAddress,
+                                                    widget.rideData.endAddress,
                                                     overflow: TextOverflow.fade,
                                                     style: TextStyle(
                                                         fontWeight:
@@ -252,7 +286,7 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: rideData.totalSeats,
+                  itemCount: widget.rideData.totalSeats,
                   itemBuilder: (_, index) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -319,8 +353,27 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
           ),
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
-              child: controller.isLoading.value
+              onPressed: () {
+                List<String> ListofSeats = [];                    
+                for (var i = 1; i <= widget.rideData.totalSeats - widget.rideData.confirmedSeats; i++) {
+                  ListofSeats.add(i.toString());
+                  print(i.toString());
+                }
+                
+                Get.to(
+                    () => JoinPoolConfirmScreen(
+                      driverID: widget.driverData.driverID,
+                      rideID: widget.rideData.id,
+                      passangerID: searchPoolController.auth.currentUser!.uid,
+                      selectedStartAddress: widget.selectedStartAddress,
+                      selectedEndAddress: widget.selectedEndAddress,
+                      selectedUserStartPoint: widget.selectedUserStartPoint,
+                      selectedUserEndPoint: widget.selectedUserEndPoint,
+                          numberOfSeatsAvailable: ListofSeats,
+                        ),
+                    transition: Transition.cupertino);
+              },
+              child: searchPoolController.isLoading.value
                   ? SizedBox(
                       width: 30,
                       height: 30,
@@ -374,9 +427,9 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        driverData.profile_image == "-"
+                        widget.driverData.profile_image == "-"
                             ? "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996"
-                            : driverData.profile_image.toString(),
+                            : widget.driverData.profile_image.toString(),
                         fit: BoxFit.cover,
                         loadingBuilder: (BuildContext context, Widget child,
                             ImageChunkEvent? loadingProgress) {
@@ -401,7 +454,7 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        driverData.name,
+                        widget.driverData.name,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20.r),
                       ),
@@ -409,7 +462,7 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                         height: 2.h,
                       ),
                       Text(
-                        rideData.vehicleType,
+                        widget.rideData.vehicleType,
                         style: TextStyle(
                             fontWeight: FontWeight.w300, fontSize: 12.r),
                       )
@@ -435,7 +488,7 @@ class SearchPoolDetailsScreen extends GetView<SearchPoolController> {
                               reverse: true,
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
-                              itemCount: rideData.totalSeats,
+                              itemCount: widget.rideData.totalSeats,
                               itemBuilder: (_, index) {
                                 return Container(
                                   decoration: BoxDecoration(

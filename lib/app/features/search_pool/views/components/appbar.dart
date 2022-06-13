@@ -26,10 +26,14 @@ class _AppBar extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 16.r, fontWeight: FontWeight.bold),
                     )
-                  : Text(
-                      'Poolers going to ' + endSubLocality!,
-                      style: TextStyle(
-                          fontSize: 16.r, fontWeight: FontWeight.bold),
+                  : SizedBox(
+                      width: Get.width - 92,
+                      child: Text(
+                        'Poolers going to ' + endSubLocality!,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 16.r, fontWeight: FontWeight.bold),
+                      ),
                     ),
               const Spacer(),
             ],

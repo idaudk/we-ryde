@@ -8,6 +8,7 @@ class UserModel {
   late String email;
   late String cnic;
   late String? profile_image;
+  late String driverID;
   //late DateTime dob;
   //late String homeAddress = "null";
   //double rating = 0.0; //get from database
@@ -20,14 +21,14 @@ class UserModel {
   //List<dynamic> chatList = [];
   // late String id;
   // late String id;
-  UserModel({
-    required this.name,
-    required this.email,
-    required this.cnic,
-    required this.phone_number,
-    required this.profile_image,
-    required this.vehicleList,
-  });
+  UserModel(
+      {required this.name,
+      required this.email,
+      required this.cnic,
+      required this.phone_number,
+      required this.profile_image,
+      required this.vehicleList,
+      required this.driverID});
 
   UserModel.fromDocumentSnapshot(
       {required DocumentSnapshot<Map<String, dynamic>> snapshot,
@@ -35,8 +36,9 @@ class UserModel {
     //id = snapshot.data()!["id"];
     name = snapshot.data()!["name"];
     email = snapshot.data()!["email"];
-    phone_number =snapshot.data()!["phone_number"];
+    phone_number = snapshot.data()!["phone_number"];
     profile_image = snapshot.data()!["profile_image"];
+    driverID = snapshot.data()!['driverID'];
     if (snapshot.data()!.containsKey('vehiclesList')) {
       vehicleList = snapshot.data()!['vehiclesList'];
     }
