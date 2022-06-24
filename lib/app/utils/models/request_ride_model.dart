@@ -1,11 +1,12 @@
 // import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RequestModel {
   late String rideID; //get from that screen
-  late String requestID;
+  String? requestID;
 
   late String passangerID;
   late String startAddress;
@@ -14,13 +15,22 @@ class RequestModel {
   late String endAddress;
   late String message;
   late int seats;
+
   late DateTime requestedAt;
   late bool isConfirmed;
   late int rideCost;
 
-  RequestModel.fromDocumentSnapshot({required Map<String, dynamic> snapshot}) {
+  // "timestamp": FieldValue.serverTimestamp(),
+  // late TimeOfDay requestTime;
+  late Timestamp timestamp;
+  late DateTime rideStartDate;
+ 
+  late TimeOfDay rideStartTime;
+
+  RequestModel.fromDocumentSnapshot(
+      {required DocumentSnapshot<Map<String, dynamic>> snapshot}) {
     rideID = snapshot['rideID'];
-    requestID = snapshot['requestId'];
+    // requestID = snapshot['requestId'] == null ? "" : "";
     passangerID = snapshot['passangerID'];
     startAddress = snapshot['startAddress'];
     GeoPoint start = snapshot['startPoint'];
@@ -35,15 +45,11 @@ class RequestModel {
     isConfirmed = snapshot['isConfirmed'];
 
     requestedAt = DateTime.fromMicrosecondsSinceEpoch(snapshot['requestedAt']);
-
-    if (snapshot.containsKey('rideCost')) {
-      rideCost = snapshot['rideCost'];
-    }
+    
+    rideStartTime = TimeOfDay(
+        hour: snapshot.data()!['rideStartTime']['hour'],
+        minute: snapshot.data()!['rideStartTime']['minute']);
+ 
+    rideStartDate = DateTime.fromMicrosecondsSinceEpoch(snapshot.data()!['rideStartDate']);
   }
-
-  // Map<String, dynamic> toJson(){
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['name'] = this.name;
-  //   return data;
-  // }
 }

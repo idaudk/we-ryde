@@ -198,14 +198,21 @@ class SearchPoolController extends GetxController {
       "seats": seats,
       "isConfirmed": false,
       "requestedAt": DateTime.now().microsecondsSinceEpoch,
+      "timestamp": FieldValue.serverTimestamp(),
+      "rideStartDate" : rideData!.startDate.microsecondsSinceEpoch,
+      "rideStartTime": {
+        "hour" : rideData!.time.hour,
+        "minute" : rideData!.time.minute
+      }
+      
+      
     }).then((value) {
       // print(value.id);
-
       rideRequestCollection
           .doc(value.id)
           .update({"requestId": value.id}).then((value) {
         isConfirmButtonLoading.value = false;
-        Get.to(()=> ConfirmScreen(),
+        Get.to(() => ConfirmScreen(),
             transition: Transition.zoom, curve: Curves.easeIn);
         // Get.to(() => RideScreen(currentTab: 1));
       }).catchError((error) {

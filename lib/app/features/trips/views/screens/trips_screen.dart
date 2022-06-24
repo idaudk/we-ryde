@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:tab_container/tab_container.dart';
+import 'package:weryde/app/config/themes/app_basic_theme.dart';
 import 'package:weryde/app/features/trips/controllers/trips_controller.dart';
 import '../../../../utils/animations/animations.dart';
+import '../../../../utils/models/request_ride_model.dart';
 import '../../../../utils/models/ride_model.dart';
 
 part '../components/appbar.dart';

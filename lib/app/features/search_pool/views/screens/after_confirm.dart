@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:weryde/app/features/search_pool/controllers/search_pool_controller.dart';
 
+import '../../../../config/routes/app_pages.dart';
 import '../../../../utils/animations/animations.dart';
 
 class ConfirmScreen extends StatelessWidget {
@@ -91,7 +92,7 @@ class ConfirmScreen extends StatelessWidget {
                     child: ScaleAnimation(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Get.offNamed(Routes.)
+                          Get.offNamed(Routes.bottomnav);
                         },
                         child: Text(
                           "My Trips",

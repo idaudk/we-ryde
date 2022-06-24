@@ -18,9 +18,10 @@ class _RequestedPool extends GetView<TripsController> {
           children: [
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: FirebaseFirestore.instance
-                    .collection("ride")
-                    .where('driverID',
+                    .collection("request")
+                    .where('passangerID',
                         isEqualTo: controller.auth.currentUser!.uid)
+                    .orderBy('timestamp', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -33,7 +34,8 @@ class _RequestedPool extends GetView<TripsController> {
                       direction: Axis.vertical,
                       children: snapshot.data!.docs.map((e) {
                         return _RequestItem(
-                            ride: RideModel.fromDocumentSnapshot(snapshot: e),
+                            ride:
+                                RequestModel.fromDocumentSnapshot(snapshot: e),
                             context: context);
                       }).toList(),
                     );
@@ -46,7 +48,8 @@ class _RequestedPool extends GetView<TripsController> {
   }
 }
 
-Widget _RequestItem({required RideModel ride, required BuildContext context}) {
+Widget _RequestItem(
+    {required RequestModel ride, required BuildContext context}) {
   return Container(
     padding: EdgeInsets.all(13),
     margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
@@ -75,7 +78,7 @@ Widget _RequestItem({required RideModel ride, required BuildContext context}) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${ride.time.format(context)}",
+                  "${ride.rideStartTime.format(context)}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.r),
                 ),
                 SizedBox(
@@ -91,7 +94,7 @@ Widget _RequestItem({required RideModel ride, required BuildContext context}) {
                       width: 5.w,
                     ),
                     Text(
-                      "${Jiffy(ride.startDate).MMMd}",
+                      "${Jiffy(ride.rideStartDate).MMMd}",
                       style: TextStyle(fontWeight: FontWeight.w400),
                     ),
                   ],
@@ -168,11 +171,37 @@ Widget _RequestItem({required RideModel ride, required BuildContext context}) {
             )
           ],
         ),
+        SizedBox(
+          height: 10.h,
+        ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            ride.isConfirmed
+                ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: AppBasicTheme().primaryColor,
+                        borderRadius: BorderRadius.circular(24)),
+                    child: Text(
+                      'Confirmed',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w300, fontSize: 10.r),
+                    ),
+                  )
+                : Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24)),
+                    child: Text(
+                      'pending',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w300, fontSize: 10.r),
+                    ),
+                  ),
             Text(
-              "Posted: ${Jiffy(ride.postedAt).fromNow()}",
+              "Request: ${Jiffy(ride.requestedAt).fromNow()}",
               style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10.r),
             ),
           ],

@@ -33,8 +33,7 @@ class RideModel {
   late int confirmedSeats;
   // List<RequestModel> requestList = [];
 
-  RideModel.fromDocumentSnapshot(
-      {required DocumentSnapshot<Map<String, dynamic>> snapshot}) {
+  RideModel.fromDocumentSnapshot({required DocumentSnapshot<Map<String, dynamic>> snapshot}) {
     id = snapshot.data()!['id'];
     driverID = snapshot.data()!['driverID'];
     startAddress = snapshot.data()!['startAddress'];
