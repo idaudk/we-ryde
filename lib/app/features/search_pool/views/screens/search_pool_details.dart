@@ -8,11 +8,11 @@ import 'package:jiffy/jiffy.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:weryde/app/config/themes/app_basic_theme.dart';
 import 'package:weryde/app/features/search_pool/controllers/search_pool_controller.dart';
-import 'package:weryde/app/features/search_pool/views/screens/join_pool_confirm.dart';
 import 'package:weryde/app/utils/models/ride_model.dart';
 import 'package:weryde/app/utils/models/user_model.dart';
 
 import '../../../../constants/map_constant.dart';
+import 'join_pool_confirm.dart';
 
 class SearchPoolDetailsScreen extends StatefulWidget {
   final RideModel rideData;
@@ -31,8 +31,7 @@ class SearchPoolDetailsScreen extends StatefulWidget {
       required this.selectedUserEndPoint,
       required this.selectedUserStartPoint,
       required this.selectedStartAddress,
-      required this.selectedEndAddress
-      })
+      required this.selectedEndAddress})
       : super(key: key);
 
   @override
@@ -354,24 +353,27 @@ class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                List<String> ListofSeats = [];                    
-                for (var i = 1; i <= widget.rideData.totalSeats - widget.rideData.confirmedSeats; i++) {
+                List<String> ListofSeats = [];
+                for (var i = 1;
+                    i <=
+                        widget.rideData.totalSeats -
+                            widget.rideData.confirmedSeats;
+                    i++) {
                   ListofSeats.add(i.toString());
                   print(i.toString());
                 }
-                
                 Get.to(
-                    () => JoinPoolConfirmScreen(
-                      driverID: widget.driverData.driverID,
-                      rideID: widget.rideData.id,
-                      passangerID: searchPoolController.auth.currentUser!.uid,
-                      selectedStartAddress: widget.selectedStartAddress,
-                      selectedEndAddress: widget.selectedEndAddress,
-                      selectedUserStartPoint: widget.selectedUserStartPoint,
-                      selectedUserEndPoint: widget.selectedUserEndPoint,
-                          numberOfSeatsAvailable: ListofSeats,
-                        ),
-                    transition: Transition.cupertino);
+                  () => JoinPoolConfirmScreen(
+                    driverID: widget.driverData.userId,
+                    rideID: widget.rideData.id,
+                    passangerID: searchPoolController.auth.currentUser!.uid,
+                    selectedStartAddress: widget.selectedStartAddress,
+                    selectedEndAddress: widget.selectedEndAddress,
+                    selectedUserStartPoint: widget.selectedUserStartPoint,
+                    selectedUserEndPoint: widget.selectedUserEndPoint,
+                    numberOfSeatsAvailable: ListofSeats,
+                  ),
+                );
               },
               child: searchPoolController.isLoading.value
                   ? SizedBox(

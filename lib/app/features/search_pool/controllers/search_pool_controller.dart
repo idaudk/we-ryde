@@ -10,25 +10,22 @@ import 'package:group_button/group_button.dart';
 
 import '../../../utils/models/ride_model.dart';
 import '../../../utils/models/user_model.dart';
+import '../views/screens/after_confirm.dart';
 
 class SearchPoolController extends GetxController {
-
-
-
   final auth = FirebaseAuth.instance;
   final phoneNumber = TextEditingController();
   final isLoading = false.obs;
   final isMapLoading = true.obs;
-  //firebase  Request Ride collection Reference 
+  var isConfirmButtonLoading = false.obs;
+  //firebase  Request Ride collection Reference
   static var rideRequestCollection =
-  FirebaseFirestore.instance.collection('request');
+      FirebaseFirestore.instance.collection('request');
 
   final userMessageController = TextEditingController();
   final seatsController = GroupButtonController();
 
-            // 'vehicleSeats': vehicleSeatController.selectedIndex!.toInt() + 1,
-
- 
+  // 'vehicleSeats': vehicleSeatController.selectedIndex!.toInt() + 1,
 
   UserModel? driverData;
   RideModel? rideData;
@@ -175,7 +172,7 @@ class SearchPoolController extends GetxController {
     update();
   }
 
-   sendRequestToJoin({
+  sendRequestToJoin({
     required String rideID,
     required String driverID,
     required String passangerID,
@@ -187,6 +184,7 @@ class SearchPoolController extends GetxController {
     required int seats,
   }) async {
     // showLoading();
+    isConfirmButtonLoading.value = true;
 
     rideRequestCollection.add({
       "passangerID": passangerID,
@@ -206,21 +204,17 @@ class SearchPoolController extends GetxController {
       rideRequestCollection
           .doc(value.id)
           .update({"requestId": value.id}).then((value) {
-        Get.back();
-        Get.snackbar
-
-        ("Request Sent Sucessfuly!", "");
-
+        isConfirmButtonLoading.value = false;
+        Get.to(()=> ConfirmScreen(),
+            transition: Transition.zoom, curve: Curves.easeIn);
         // Get.to(() => RideScreen(currentTab: 1));
       }).catchError((error) {
         print("Failed to Sent Request: $error");
-        Get.snackbar(
-             "Failed to Post Ride",  "Please Try again!");
+        Get.snackbar("Failed to Post Ride", "Please Try again!");
       });
     }).catchError((error) {
       print("Failed to Post Ride Request: $error");
-      Get.snackbar(
-          "Failed to Post Ride Request", "Please Try again!");
+      Get.snackbar("Failed to Post Ride Request", "Please Try again!");
     });
   }
 }

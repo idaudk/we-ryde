@@ -40,7 +40,8 @@ abstract class UserServices {
       'email': data.emailAddress,
       'cinc': data.cnic,
       'profile_image': data.profileImage,
-      'vehicleList': data.vehicleList
+      'vehicleList': data.vehicleList,
+      'userId' : _auth.currentUser!.uid,
     }, SetOptions(merge: true)).then((value) {
       if (onSuccess != null) onSuccess();
     }).catchError(
