@@ -321,7 +321,8 @@ class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
                   }),
             ),
           ],
-        ));
+        )
+        );
   }
 
   Container footer() {

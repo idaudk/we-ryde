@@ -13,6 +13,7 @@ import 'package:select_form_field/select_form_field.dart';
 import 'package:tab_container/tab_container.dart';
 import 'package:weryde/app/constants/map_constant.dart';
 import 'package:weryde/app/features/home/controllers/home_controller.dart';
+import 'package:weryde/app/features/trips/controllers/trips_controller.dart';
 
 import '../../../pin_map/views/screens/pin_map_screen.dart';
 import '../../controllers/home_controller.dart';

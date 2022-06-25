@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RequestModel {
   late String rideID; //get from that screen
-  String? requestID;
+  late String? requestID;
 
   late String passangerID;
   late String startAddress;
@@ -24,13 +24,15 @@ class RequestModel {
   // late TimeOfDay requestTime;
   late Timestamp timestamp;
   late DateTime rideStartDate;
- 
+
   late TimeOfDay rideStartTime;
 
   RequestModel.fromDocumentSnapshot(
       {required DocumentSnapshot<Map<String, dynamic>> snapshot}) {
     rideID = snapshot['rideID'];
-    // requestID = snapshot['requestId'] == null ? "" : "";
+    if (snapshot.data()!.containsKey('requestId')) {
+      requestID = snapshot['requestId'];
+    }
     passangerID = snapshot['passangerID'];
     startAddress = snapshot['startAddress'];
     GeoPoint start = snapshot['startPoint'];
@@ -45,11 +47,12 @@ class RequestModel {
     isConfirmed = snapshot['isConfirmed'];
 
     requestedAt = DateTime.fromMicrosecondsSinceEpoch(snapshot['requestedAt']);
-    
+
     rideStartTime = TimeOfDay(
         hour: snapshot.data()!['rideStartTime']['hour'],
         minute: snapshot.data()!['rideStartTime']['minute']);
- 
-    rideStartDate = DateTime.fromMicrosecondsSinceEpoch(snapshot.data()!['rideStartDate']);
+
+    rideStartDate =
+        DateTime.fromMicrosecondsSinceEpoch(snapshot.data()!['rideStartDate']);
   }
 }

@@ -17,6 +17,8 @@ import '../../../../utils/models/ride_model.dart';
 part '../components/appbar.dart';
 part '../components/offered_pool.dart';
 part '../components/requested_pool.dart';
+part '../components/offered_pool_details.dart';
+part '../components/accept_button.dart';
 //part '../components/ride_item.dart';
 
 class TripsScreen extends StatelessWidget {

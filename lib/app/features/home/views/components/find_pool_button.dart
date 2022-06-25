@@ -8,7 +8,13 @@ class _FindPoolButton extends GetView<HomeController> {
     return Obx(
       () => ElevatedButton(
         onPressed: () {
+          TripsController().goneToOtherPage.value = true;
+         
+          TripsController().dispose();
           controller.findPoolSearchButtonHandler();
+
+          print('Value set to True ***********************************' +
+              TripsController().goneToOtherPage.value.toString());
         },
         //controller.isLoading.value ? null : () => controller.register(),
         child: controller.isSearchButtonLoading.value

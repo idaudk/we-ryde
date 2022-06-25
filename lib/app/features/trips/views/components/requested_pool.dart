@@ -1,7 +1,7 @@
 part of trips_screen;
 
 class _RequestedPool extends GetView<TripsController> {
-  const _RequestedPool({Key? key}) : super(key: key);
+  _RequestedPool({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,14 @@ class _RequestedPool extends GetView<TripsController> {
           physics: const BouncingScrollPhysics(),
           children: [
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: FirebaseFirestore.instance
-                    .collection("request")
-                    .where('passangerID',
-                        isEqualTo: controller.auth.currentUser!.uid)
-                    .orderBy('timestamp', descending: true)
-                    .snapshots(),
+                stream: controller.goneToOtherPage.value == false
+                    ? FirebaseFirestore.instance
+                        .collection("request")
+                        .where('passangerID',
+                            isEqualTo: controller.auth.currentUser!.uid)
+                        .orderBy('timestamp', descending: true)
+                        .snapshots()
+                    : null,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.docs.length == 0) {
@@ -62,7 +64,6 @@ Widget _RequestItem(
           color: Colors.grey.withOpacity(0),
           spreadRadius: 2,
           blurRadius: 3,
-          // offset: Offset(0, 3), // changes position of shadow
         ),
       ],
     ),
