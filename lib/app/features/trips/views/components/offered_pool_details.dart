@@ -38,10 +38,13 @@ class OfferedPoolDetails extends GetView<TripsController> {
                                 rideModel.endSubLocality +
                                 ", " +
                                 rideModel.endCity,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 16.r, fontWeight: FontWeight.bold),
                           ),
                           const Spacer(),
+                          Expanded(
+                              child: Container(height: 10, color: Colors.red))
                         ],
                       ),
                     ),
@@ -65,8 +68,6 @@ class OfferedPoolDetails extends GetView<TripsController> {
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20)),
                             color: Colors.white),
-                        //width: MediaQuery.of(context).size.width,
-                        //height: MediaQuery.of(context).size.height,
                         child: ListView(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
@@ -194,54 +195,49 @@ class OfferedPoolDetails extends GetView<TripsController> {
                                 SizedBox(
                                   height: 10.h,
                                 ),
-                                Container(
-                                  width: double.infinity,
-                                  height: 100,
-                                  child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemCount: rideModel.totalSeats,
-                                      physics: const BouncingScrollPhysics(),
-                                      itemBuilder: (_, index) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(60),
-                                                  color: AppBasicTheme()
-                                                      .primaryColor),
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 20,
-                                              ),
-                                              width: 60,
-                                              height: 60,
-                                              child: Center(
-                                                child: Icon(
-                                                  Icons.person,
-                                                  color: Colors.white,
-                                                  size: 12.r,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.h,
-                                            ),
-                                            const Text(
-                                              'User Name',
-                                              textAlign: TextAlign.center,
-                                              overflow: TextOverflow.fade,
-                                            )
-                                          ],
+                                StreamBuilder<
+                                        QuerySnapshot<Map<String, dynamic>>>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection("request")
+                                        .where('rideID',
+                                            isEqualTo: rideModel.id)
+                                        .where('isConfirmed', isEqualTo: true)
+                                        .orderBy('timestamp', descending: true)
+                                        .snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        if (snapshot.data!.docs.isEmpty) {
+                                          return const Center(
+                                            child: Text("No passanger"),
+                                          );
+                                        }
+                                        return Container(
+                                          height: 100.h,
+                                          width: Get.width,
+                                          child: ListView(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            children:
+                                                snapshot.data!.docs.map((e) {
+                                              return _CoPassangerItem(
+                                                requestModel: RequestModel
+                                                    .fromDocumentSnapshot(
+                                                        snapshot: e),
+                                                context: context,
+                                              );
+                                            }).toList(),
+                                          ),
                                         );
-                                      }),
-                                ),
-                                SizedBox(height: 40.h),
+                                      } else {
+                                        return SizedBox(
+                                          height: Get.height,
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        );
+                                      }
+                                    }),
+                                SizedBox(height: 20.h),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -270,7 +266,7 @@ class OfferedPoolDetails extends GetView<TripsController> {
                                             if (snapshot.data!.docs.length ==
                                                 0) {
                                               return const Center(
-                                                child: Text("No ride found"),
+                                                child: Text("No Request found"),
                                               );
                                             }
                                             return Flex(
@@ -279,10 +275,11 @@ class OfferedPoolDetails extends GetView<TripsController> {
                                                   snapshot.data!.docs.map((e) {
                                                 return _RideRequestItem(
                                                   rideModel: rideModel,
-                                                    requestModel: RequestModel
-                                                        .fromDocumentSnapshot(
-                                                            snapshot: e),
-                                                    context: context);
+                                                  requestModel: RequestModel
+                                                      .fromDocumentSnapshot(
+                                                          snapshot: e),
+                                                  context: context,
+                                                );
                                               }).toList(),
                                             );
                                           } else {
@@ -295,7 +292,20 @@ class OfferedPoolDetails extends GetView<TripsController> {
                                           }
                                         }),
                                   ],
-                                )
+                                ),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
+                                Center(
+                                    child: Text("Cancel ride",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.red))),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
                               ],
                             )
                           ],
@@ -309,11 +319,73 @@ class OfferedPoolDetails extends GetView<TripsController> {
   }
 }
 
+Widget _CoPassangerItem(
+    {required BuildContext context, required RequestModel requestModel}) {
+  return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection("users")
+          .doc(requestModel.passangerID)
+          .snapshots(),
+      builder: (BuildContext _, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (!snapshot.hasData) {
+          return const Align(
+              alignment: Alignment.center, child: CircularProgressIndicator());
+        }
+        return ScaleAnimation(
+          child: Container(
+            margin: EdgeInsets.only(right: 20.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppBasicTheme().secondaryColor,
+                      borderRadius: BorderRadius.circular(100)),
+                  height: 65,
+                  width: 65,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.network(
+                      snapshot.data!['profile_image'] == "-"
+                          ? "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996"
+                          : snapshot.data!['profile_image'],
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  snapshot.data!['name'],
+                  style: TextStyle(fontSize: 14.r, fontWeight: FontWeight.w300),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                )
+              ],
+            ),
+          ),
+        );
+      });
+}
+
 Widget _RideRequestItem(
     {required RequestModel requestModel,
     required BuildContext context,
-    required RideModel rideModel
-    }) {
+    required RideModel rideModel}) {
   return Container(
     padding: EdgeInsets.all(13),
     margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
@@ -330,137 +402,225 @@ Widget _RideRequestItem(
         ),
       ],
     ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CircleAvatar(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "Request: ${Jiffy(requestModel.requestedAt).fromNow()}",
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10.r),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                requestModel.isConfirmed
-                    ? Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                        decoration: BoxDecoration(
-                            color: AppBasicTheme().primaryColor,
-                            borderRadius: BorderRadius.circular(24)),
-                        child: Text(
-                          'Confirmed',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 10.r),
-                        ),
-                      )
-                    : Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+    child: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("users")
+            .doc(requestModel.passangerID)
+            .snapshots(),
+        builder: (BuildContext _, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator());
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(24)),
-                        child: Text(
-                          'pending',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 10.r),
+                            borderRadius: BorderRadius.circular(12)),
+                        height: 50.h,
+                        width: 50.w,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            snapshot.data!['profile_image'] == "-"
+                                ? "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996"
+                                : snapshot.data!['profile_image'],
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        Row(
-          children: [
-            Icon(
-              Icons.circle,
-              size: 9.r,
-              color: Colors.green,
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              width: Get.width / 1.45,
-              child: Text(
-                "${requestModel.startAddress}",
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-                maxLines: 1,
-                textAlign: TextAlign.justify,
-              ),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.only(left: Get.width / 98),
-              alignment: Alignment.center,
-              height: 20,
-              child: const DottedLine(
-                dashGapRadius: 5,
-                direction: Axis.vertical,
-                dashLength: 1.0,
-                dashColor: Colors.green,
-                lineThickness: 3.0,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Icon(
-              Icons.circle,
-              size: 9.r,
-              color: Colors.red,
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              width: Get.width / 1.45,
-              child: Text(
-                "${requestModel.endAddress}",
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-                maxLines: 1,
-                textAlign: TextAlign.justify,
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 15.h,
-        ),
-        requestModel.isConfirmed
-            ? SizedBox()
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: Get.width * 0.4,
-                      child: _AcceptButton(
-                        requestModel: requestModel,
-                        rideModel: rideModel,
-                      )),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text(snapshot.data!['name'],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16.r)),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Request: ${Jiffy(requestModel.requestedAt).fromNow()}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 10.r),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      requestModel.isConfirmed
+                          ? Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: AppBasicTheme().primaryColor,
+                                  borderRadius: BorderRadius.circular(24)),
+                              child: Text(
+                                'Confirmed',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 10.r,
+                                    color: Colors.white),
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(24)),
+                              child: Text(
+                                'pending',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 10.r),
+                              ),
+                            ),
+                    ],
+                  ),
                 ],
-              )
-      ],
-    ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.circle,
+                    size: 9.r,
+                    color: Colors.green,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    width: Get.width / 1.45,
+                    child: Text(
+                      "${requestModel.startAddress}",
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      maxLines: 1,
+                      textAlign: TextAlign.justify,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: Get.width / 98),
+                    alignment: Alignment.center,
+                    height: 20,
+                    child: const DottedLine(
+                      dashGapRadius: 5,
+                      direction: Axis.vertical,
+                      dashLength: 1.0,
+                      dashColor: Colors.green,
+                      lineThickness: 3.0,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.circle,
+                    size: 9.r,
+                    color: Colors.red,
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    width: Get.width / 1.45,
+                    child: Text(
+                      "${requestModel.endAddress}",
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      maxLines: 1,
+                      textAlign: TextAlign.justify,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 15.h,
+              ),
+              requestModel.isConfirmed
+                  ? ScaleAnimation(
+                      child: FadeAnimation(
+                        child: Row(children: [
+                          Expanded(
+                              child: Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(55)),
+                            child: Icon(
+                              Iconsax.messages_25,
+                              color: AppBasicTheme().primaryColor,
+                            ),
+                          )),
+                        ]),
+                      ),
+                    )
+                  : FadeAnimation(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(55)),
+                            child: Icon(
+                              Iconsax.messages_25,
+                              color: AppBasicTheme().primaryColor,
+                            ),
+                          )),
+                          SizedBox(width: 15.w),
+                          Expanded(
+                              flex: 3,
+                              child: _AcceptButton(
+                                requestModel: requestModel,
+                                rideModel: rideModel,
+                              )),
+                        ],
+                      ),
+                    )
+            ],
+          );
+        }),
   );
 }
+

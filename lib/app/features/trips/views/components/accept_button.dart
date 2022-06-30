@@ -13,7 +13,7 @@ class _AcceptButton extends GetView<TripsController> {
         onPressed: controller.isButtonLoading.value
             ? null
             : () => {
-                  controller.AcceptButtonHandler(
+                  controller.acceptButtonHandler(
                       rideModel: rideModel, requestModel: requestModel)
                 },
         child: controller.isButtonLoading.value

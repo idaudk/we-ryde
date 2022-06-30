@@ -187,7 +187,9 @@ Widget _RequestItem(
                     child: Text(
                       'Confirmed',
                       style: TextStyle(
-                          fontWeight: FontWeight.w300, fontSize: 10.r),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 10.r,
+                          color: Colors.white),
                     ),
                   )
                 : Container(

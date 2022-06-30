@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import 'package:weryde/app/utils/models/ride_model.dart';
 import 'package:weryde/app/utils/models/user_model.dart';
 
 import '../../../../constants/map_constant.dart';
+import '../../../../utils/models/request_ride_model.dart';
 import 'join_pool_confirm.dart';
 
 class SearchPoolDetailsScreen extends StatefulWidget {
@@ -279,50 +281,135 @@ class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Container(
-              width: double.infinity,
-              height: 100,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: widget.rideData.totalSeats,
-                  itemBuilder: (_, index) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(60),
-                              color: AppBasicTheme().primaryColor),
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          width: 60,
-                          height: 60,
-                          child: Center(
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                              size: 12.r,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'User Name',
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                        )
-                      ],
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                    .collection("request")
+                    .where('rideID', isEqualTo: widget.rideData.id)
+                    .where('isConfirmed', isEqualTo: true)
+                    .orderBy('timestamp', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.docs.isEmpty) {
+                      return const Center(
+                        child: Text("No Request found"),
+                      );
+                    }
+                    return Container(
+                      height: 100.h,
+                      width: Get.width,
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot.data!.docs.map((e) {
+                          return _CoPassangerItem(
+                            requestModel:
+                                RequestModel.fromDocumentSnapshot(snapshot: e),
+                            context: context,
+                          );
+                        }).toList(),
+                      ),
                     );
-                  }),
-            ),
+                  } else {
+                    return SizedBox(
+                      height: Get.height,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                }),
+            SizedBox(height: 20.h),
+            StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.driverData.userId)
+                    .snapshots(), //returns a Stream<DocumentSnapshot>
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Align(
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator());
+                  }
+                  var userDocument = snapshot.data;
+                  List _vehicleData = List.from(userDocument!['vehicleList']);
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: _vehicleData.length,
+                    itemBuilder: (_, index) {
+                      if (_vehicleData[index]['vehicleRegNo'] ==
+                          widget.rideData.vehicleId) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 3,
+                              child: Container(
+                                color: AppBasicTheme().secondaryColor,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Text(
+                              "Vehicle Info",
+                              style: TextStyle(
+                                  fontSize: 18.r,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black.withOpacity(0.4)),
+                            ),
+                            SizedBox(height: 5.h),
+                            Text(
+                              _vehicleData[index]['vehicleName'] +
+                                  ' | ' +
+                                  _vehicleData[index]['vehilceType'] +
+                                  ' | ' +
+                                  _vehicleData[index]['vehicleRegNo'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12.r),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 30.h),
+                            Text(
+                              "Facilites",
+                              style: TextStyle(
+                                  fontSize: 18.r,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black.withOpacity(0.4)),
+                            ),
+                            SizedBox(height: 5.h),
+                            Text(
+                              _vehicleData[index]['vehicleFacilities'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12.r),
+                              overflow: TextOverflow.clip,
+                            ),
+                            SizedBox(height: 30.h),
+                            Text(
+                              "Instructions",
+                              style: TextStyle(
+                                  fontSize: 18.r,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black.withOpacity(0.4)),
+                            ),
+                            SizedBox(height: 5.h),
+                            Text(
+                              _vehicleData[index]['vehicleInstructions'],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12.r),
+                              overflow: TextOverflow.clip,
+                            )
+                          ],
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    },
+                  );
+                }),
           ],
-        )
-        );
+        ));
   }
 
   Container footer() {
@@ -351,6 +438,7 @@ class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
           SizedBox(
             width: 20.h,
           ),
+          
           Expanded(
             child: ElevatedButton(
               onPressed: () {
@@ -375,14 +463,15 @@ class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
                     numberOfSeatsAvailable: ListofSeats,
                   ),
                 );
+                print(widget.rideData.id);
               },
               child: searchPoolController.isLoading.value
-                  ? SizedBox(
+                  ? const SizedBox(
                       width: 30,
                       height: 30,
                       child: CircularProgressIndicator(),
                     )
-                  : Text(
+                  : const Text(
                       "Join Ride",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -519,4 +608,75 @@ class _SearchPoolDetailsScreenState extends State<SearchPoolDetailsScreen> {
           ),
         ));
   }
+
+  Widget _CoPassangerItem(
+      {required BuildContext context, required RequestModel requestModel}) {
+    return StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("users")
+            .doc(requestModel.passangerID)
+            .snapshots(),
+        builder: (BuildContext _, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Align(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator());
+          }
+          return Container(
+            margin: EdgeInsets.only(right: 25.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppBasicTheme().primaryColor,
+                      borderRadius: BorderRadius.circular(100)),
+                  height: 65,
+                  width: 65,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.network(
+                      snapshot.data!['profile_image'] == "-"
+                          ? "https://img.freepik.com/free-photo/handsome-young-man-with-new-stylish-haircut_176420-19637.jpg?t=st=1648123180~exp=1648123780~hmac=39b64ea5a82853c6c17321282f5712adf297e8e24a418df12a77661f503584d2&w=996"
+                          : snapshot.data!['profile_image'],
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  snapshot.data!['name'],
+                  style: TextStyle(fontSize: 16.r, fontWeight: FontWeight.w300),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                ),
+                Text(
+                  "Seats: " + requestModel.seats.toString(),
+                  style: TextStyle(fontSize: 10.r, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  
 }

@@ -162,6 +162,7 @@ class JoinPoolConfirmScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              
               Expanded(
                   flex: 1,
                   child: Container(

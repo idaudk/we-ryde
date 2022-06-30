@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weryde/app/config/routes/app_pages.dart';
@@ -114,7 +113,7 @@ class AuthenticationController extends GetxController {
 
   void _goToHome() {
     isLoading.value = false;
-    Get.offAllNamed(Routes.home);
+    Get.offAllNamed(Routes.bottomnav);
   }
 
   void _validateCountdownResendCode() {

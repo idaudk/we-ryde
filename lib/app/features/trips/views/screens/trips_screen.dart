@@ -13,6 +13,7 @@ import 'package:weryde/app/features/trips/controllers/trips_controller.dart';
 import '../../../../utils/animations/animations.dart';
 import '../../../../utils/models/request_ride_model.dart';
 import '../../../../utils/models/ride_model.dart';
+import '../../../../utils/models/user_model.dart';
 
 part '../components/appbar.dart';
 part '../components/offered_pool.dart';

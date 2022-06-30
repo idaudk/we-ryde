@@ -30,6 +30,15 @@ class TripsController extends GetxController {
     }
   }
 
+  Future<int?> getCurrentConfirmedSeats(String Id) async {
+    DocumentReference documentReference = rideInfoCollection.doc(Id);
+    int? confirmedSeats;
+    await documentReference.get().then((snapshot) {
+      confirmedSeats = snapshot['confirmedSeats'];
+    });
+    return confirmedSeats;
+  }
+
   getExpenseItems(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data!.docs
         .map((doc) => new ListTile(
@@ -38,19 +47,30 @@ class TripsController extends GetxController {
         .toList();
   }
 
-  AcceptButtonHandler(
-      {required RideModel rideModel, required RequestModel requestModel}) {
+  acceptButtonHandler(
+      {required RideModel rideModel,
+      required RequestModel requestModel}) async {
     isButtonLoading.value = true;
+
+    int? confirmedSeats = await getCurrentConfirmedSeats(rideModel.id);
 
     rideRequestCollection
         .doc(requestModel.requestID)
         .update({'isConfirmed': true});
 
-    rideInfoCollection.doc(requestModel.rideID).update({
-      'confirmedSeats': requestModel.seats,
-      'confirmedRideList': [requestModel.requestID]
-    });
+    rideInfoCollection.doc(requestModel.rideID).update(
+      {
+        'confirmedSeats': requestModel.seats + confirmedSeats!,
+        'confirmedRideList': FieldValue.arrayUnion([
+          requestModel.requestID
+        ])
+      },
+    );
+    // rideInfoCollection.doc(requestModel.rideID).
 
     isButtonLoading.value = false;
+    print(confirmedSeats);
+
+    // print(rideModel.confirmedSeats);
   }
 }

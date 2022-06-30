@@ -172,6 +172,8 @@ class SearchPoolController extends GetxController {
     update();
   }
 
+
+
   sendRequestToJoin({
     required String rideID,
     required String driverID,
@@ -199,13 +201,11 @@ class SearchPoolController extends GetxController {
       "isConfirmed": false,
       "requestedAt": DateTime.now().microsecondsSinceEpoch,
       "timestamp": FieldValue.serverTimestamp(),
-      "rideStartDate" : rideData!.startDate.microsecondsSinceEpoch,
+      "rideStartDate": rideData!.startDate.microsecondsSinceEpoch,
       "rideStartTime": {
-        "hour" : rideData!.time.hour,
-        "minute" : rideData!.time.minute
+        "hour": rideData!.time.hour,
+        "minute": rideData!.time.minute
       }
-      
-      
     }).then((value) {
       // print(value.id);
       rideRequestCollection

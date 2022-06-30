@@ -79,6 +79,7 @@ class _RideItemState extends State<RideItem> {
                     )),
           )
         : FadeAnimation(
+            duration: const Duration(milliseconds: 850),
             child: InkWell(
               onTap: () {
                 Get.to(() => SearchPoolDetailsScreen(
